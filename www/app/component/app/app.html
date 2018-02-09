@@ -1,0 +1,30 @@
+<!--<div class="bg-primary text-white text-thin text-center noselect p-2">-->
+<!--	<h1 class="mb-0">IODyn Interactive</h1>-->
+<!--</div>-->
+<!--<pre ng-bind="$ctrl.pretty"></pre>-->
+<!--<div id="ast-tree"></div>-->
+<div class="row">
+	<div class="col-md-6 p-0">
+		<!--<div id="ast-tree"></div>-->
+		<div class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.update()"></div>
+	</div>
+	<!--<div class="col-md-1 p-0 bg-secondary text-white">-->
+	<!--	<table class="full-height text-center">-->
+	<!--		<tr>-->
+	<!--			<td>-->
+	<!--				<i class="fa fa-caret-right text-light fa-4x ml-4 pl-2"></i>-->
+	<!--			</td>-->
+	<!--		</tr>-->
+	<!--	</table>-->
+	<!--</div>-->
+	<div class="col-md-6 p-0 bg-light">
+		<!--<div id="ast-tree"></div>-->
+		<div class="pretty-panel container v-scroll full-height">
+			<!--<ast node="$ctrl.program"></ast>-->
+			<p-exp node="$ctrl.program"></p-exp>
+		</div>
+	</div>
+	<!--<div class="col-lg-2">-->
+	<!--	<ast ng-repeat="trace in $ctrl.traces" node="trace"></ast>-->
+	<!--</div>-->
+</div>

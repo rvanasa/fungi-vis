@@ -1,0 +1,91 @@
+@import url(https://fonts.googleapis.com/css?family=Cousine:200,400,700);
+
+@import url(components.css);
+@import url(terms.css);
+
+:not(.no-transition) {
+	transition: .2s ease-out;
+	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height;
+}
+
+html, body {
+	overflow-x: hidden;
+	width: 100%;
+	font-family: "Cousine", serif;
+}
+
+textarea {
+	resize: none;
+}
+
+.clickable, .btn, a {
+	cursor: pointer;
+}
+
+.btn:not(.rounded-circle), .badge, input {
+	border-radius: 0 !important;
+}
+
+.btn:hover {
+	transform: scale(1.1);
+	opacity: 1;
+}
+
+.text-thin {
+	font-weight: 100;
+}
+
+.text-label {
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.bg-dark {
+	background: #1C2030;
+	color: #FFF;
+}
+
+.bg-darker {
+	background: #131722;
+	color: #FFF;
+}
+
+.bg-darkest {
+	background: #000;
+	color: #FFF;
+}
+
+::selection {
+    background: #DDD;
+    color: #444;
+}
+
+.noselect {
+	cursor: default;
+}
+
+.noselect ::selection, .noselect::selection {
+	background: inherit;
+	color: inherit;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #DDD;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: #AAA;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #CCC;
+}
+ 
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}

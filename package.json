@@ -1,0 +1,45 @@
+{
+  "name": "iodyn-web",
+  "version": "0.1.0",
+  "description": "IODyn web components",
+  "main": "index.js",
+  "repository": "",
+  "author": "",
+  "scripts": {
+    "start": "node index"
+  },
+  "dependencies": {
+    "async": "2.6.0",
+    "bluebird": "3.5.1",
+    "body-parser": "1.18.2",
+    "compression": "1.7.1",
+    "cookie-parser": "1.4.3",
+    "ejs": "2.5.7",
+    "express": "4.16.2",
+    "morgan": "1.9.0",
+    "sorc": "0.3.12",
+    "yargs": "8.0.2"
+  },
+  "devDependencies": {
+    "angular": "1.6.7",
+    "angular-animate": "1.6.7",
+    "angular-route": "1.6.7",
+    "angular-touch": "1.6.7",
+    "angular-ui-bootstrap": "2.5.6",
+    "camelize": "1.0.0",
+    "copy-webpack-plugin": "4.2.3",
+    "css-loader": "0.28.7",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "0.11.2",
+    "html-loader": "0.4.5",
+    "parsimmon": "^1.6.4",
+    "prettier-printer": "^1.0.0",
+    "pretty-js": "^0.2.0",
+    "raw-loader": "^0.5.1",
+    "rust-wasm-loader": "^0.1.2",
+    "style-loader": "0.18.2",
+    "webpack": "3.10.0",
+    "webpack-dev-middleware": "1.12.2",
+    "webpack-hot-middleware": "2.21.0"
+  }
+}

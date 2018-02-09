@@ -1,0 +1,36 @@
+<span class="ast-node">
+	<b ng-if="!$ctrl.isNode($ctrl.node)"
+		class="text-success clickable"
+		ng-bind="$ctrl.stringify($ctrl.node)">
+	</b>
+	<!--<ast ng-if="$ctrl.isNode(item) && item.length == 2" node="item[0]"></ast>-->
+	<span ng-if="$ctrl.isNode($ctrl.node)">
+		<b class="ast-node-name clickable"
+			ng-bind="$ctrl.node[0]"
+			data-toggle="tooltip"
+			data-placement="top"
+			title="(unknown type)">
+		</b>
+		<span ng-if="$ctrl.node.length > 1" class="ast-node-args">
+			(
+			<br>
+			<span ng-repeat="item in $ctrl.node" ng-if="$index">
+				<ast node="item" indent="$ctrl.indent + 1" ng-style="{marginLeft: ($ctrl.indent + 1) + 'em'}"></ast>
+			</span>
+			<!--<br>-->
+			)
+		</span>
+	</span>
+</span>
+
+
+<!--<ul class="list-group p-0">-->
+<!--	<li class="list-group-item p-0 pl-2">-->
+<!--		<label class="list-group-title" ng-bind="$ctrl.node[0]"></label>-->
+<!--	</li>-->
+<!--	<li class="list-group-item p-0 pl-4" ng-repeat="item in $ctrl.node" ng-if="$index">-->
+<!--		<label class="text-primary" ng-if="$ctrl.isName(item)" ng-bind="item"></label>-->
+<!--		<ast class="w-100" ng-if="$ctrl.isNode(item) && item.length == 2" node="item[0]"></ast>-->
+<!--		<ast class="w-100" ng-if="$ctrl.isNode(item)" node="item"></ast>-->
+<!--	</li>-->
+<!--</ul>-->

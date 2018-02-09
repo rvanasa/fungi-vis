@@ -1,0 +1,57 @@
+.keyword {
+	color: var(--blue);
+}
+
+.lambda {
+	color: var(--red);
+	font-weight: bold;
+}
+
+.builtin {
+	color: var(--orange);
+}
+
+.literal {
+	color: var(--green);
+}
+
+.operator {
+	color: var(--red);
+}
+
+.encloser {
+	opacity: .8;
+}
+
+.indent {
+	vertical-align: top;
+}
+
+.indent:hover {
+	background: white;
+	box-shadow: 0 2px 12px #AAA;
+}
+
+.indent-collapse:hover {
+	display: inline-block;
+	transform: scale(1.2);
+}
+
+.id-type {
+	
+}
+
+.id-var {
+	border-radius: 8px;
+	display: inline-block;
+}
+
+.id-var.highlighted {
+	box-shadow: 0 0 2px 1px var(--purple);
+	transform: scale(1.05, 1.1);
+	background: #FFF;
+}
+
+id-var[type=decl] {
+	border-bottom: 1px solid #DDD;
+}
