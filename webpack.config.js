@@ -38,7 +38,7 @@ var config = {
 		}, {
 			test: /\.(png|jpg|ico)$/,
 			loader: 'file-loader',
-		}, {
+		}/*, {
 			test: /\.rs$/,
 			use: {
 			  loader: 'rust-wasm-loader',
@@ -46,7 +46,7 @@ var config = {
 				path: rustPath,
 			  }
 			}
-		  },],
+		  }*/],
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),

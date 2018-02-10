@@ -1,3 +1,8 @@
+.page-title {
+	font-size: 20px;
+	letter-spacing: 2px;
+}
+
 .full-height {
 	min-height: 100vh;
 	max-height: 100vh;

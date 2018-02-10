@@ -34,6 +34,16 @@ function surround(left, parser, right)
 	return left.then(parser).skip(right);
 }
 
+function toObject(pairs)
+{
+	var obj = {};
+	for(var [key, value] of pairs)
+	{
+		obj[key] = value;
+	}
+	return obj;
+}
+
 var ignore = p.alt(p.whitespace, p.string('//').then(p.regex(/.*$/m))).many();
 
 var IDENT = lexeme(p.regex(/[_A-Za-z$][_A-Za-z$0-9]*/));
@@ -53,11 +63,18 @@ var COLON = keyword(':');
 
 var Exp = p.lazy('Expression', () => p.alt(
 	Literal,
+	Block,
 	Composite,
 ));
 
 var Literal = p.alt(STR, NUM, TRUE, FALSE);
 
-var Composite = seq(IDENT, opt(surround(L_PAREN, Exp.skip(opt(COMMA)).many(), R_PAREN), []), (id, values) => [id].concat(values));
+var Composite = seq(IDENT, opt(surround(L_PAREN, Exp.skip(opt(COMMA)).many(), R_PAREN), []),
+	(id, values) => [id].concat(values));
+
+var KVPair = p.seq(IDENT.skip(COLON), Exp);
+
+var Block = seq(IDENT, surround(L_BRACE, KVPair.skip(opt(COMMA)).many().map(toObject), R_BRACE),
+	(id, values) => [id].concat(values));
 
 module.exports = Exp.skip(ignore);

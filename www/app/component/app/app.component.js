@@ -9,8 +9,22 @@ module.exports = {
 		
 		$ctrl.input = require('raw-loader!./_temp_input.txt');
 		
-		$ctrl.program = inputData[1];
+		$ctrl.program = formatAST(inputData[1]);
 		$ctrl.traces = inputData[2].slice(1);
+		
+		function formatAST(node)
+		{
+			if(node[0] === 'TypeInfo')
+			{
+				node[1].node._type = node[1];
+				return formatAST(node[1].node);
+			}
+			else if(Array.isArray(node))
+			{
+				return node.map(formatAST);
+			}
+			return node;
+		}
 		
 		console.log(inputData);
 		
