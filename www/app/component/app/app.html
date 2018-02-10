@@ -1,18 +1,22 @@
-<!--<div class="bg-dark text-muted p-2">-->
-<!--	<div class="row">-->
-<!--		<div class="col-sm-2 text-left"></div>-->
-<!--		<div class="col-sm-8 text-center noselect">-->
-<!--			<h1 class="page-title mb-0">Human-Fungi Interface</h1>-->
-<!--		</div>-->
-<!--		<div class="col-sm-2 text-right"></div>-->
-<!--	</div>-->
-<!--</div>-->
+<div class="bg-dark text-muted p-2">
+	<div class="row">
+		<div class="col-sm-3 text-left"></div>
+		<div class="col-sm-6 text-center noselect">
+			<h1 class="page-title mb-0 mt-1">Human-Fungi Interface</h1>
+		</div>
+		<div class="col-sm-3 text-right">
+			<div class="btn-group btn-group-sm">
+				<span class="btn btn-dark m-0"><i class="fa fa-code"></i></span>
+			</div>
+		</div>
+	</div>
+</div>
 <!--<pre ng-bind="$ctrl.pretty"></pre>-->
 <!--<div id="ast-tree"></div>-->
 <div class="row">
 	<div class="col-md-6 p-0">
 		<!--<div id="ast-tree"></div>-->
-		<div class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.update()"></div>
+		<div class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
 	</div>
 	<!--<div class="col-md-1 p-0 bg-secondary text-white">-->
 	<!--	<table class="full-height text-center">-->
@@ -27,7 +31,7 @@
 		<!--<div id="ast-tree"></div>-->
 		<div class="pretty-panel container v-scroll full-height">
 			<!--<ast node="$ctrl.program"></ast>-->
-			<p-exp node="$ctrl.program"></p-exp>
+			<p-exp node="$ctrl.program" ng-if="$ctrl.program"></p-exp>
 		</div>
 	</div>
 	<!--<div class="col-lg-2">-->

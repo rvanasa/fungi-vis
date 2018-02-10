@@ -4,8 +4,8 @@
 }
 
 .full-height {
-	min-height: 100vh;
-	max-height: 100vh;
+	min-height: calc(100vh - 48px);
+	max-height: calc(100vh - 48px);
 }
 
 .v-scroll {

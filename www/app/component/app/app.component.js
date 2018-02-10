@@ -1,19 +1,63 @@
 module.exports = {
 	template: require('./app.html'),
-	controller: function(ParseService)
+	controller: function(ParseService, StorageService)
 	{
 		var $ctrl = this;
 		
-		var rawData = require('raw-loader!./_temp_ast.txt');
-		var inputData = ['run', ParseService.parse(rawData), ['traces']];
+		$ctrl.setData = function(data, oneTime)
+		{
+			data = data || $ctrl.data;
+			
+			if(!oneTime)
+			{
+				StorageService.set('data', data);
+			}
+			
+			$ctrl.data = data;
+			$ctrl.input = data.input;
+			$ctrl.program = formatAST(data.program);
+			$ctrl.traces = data.traces;
+		}
 		
-		$ctrl.input = require('raw-loader!./_temp_input.txt');
+		// Load input/AST/trace data
+		$ctrl.setData(StorageService.get('data', true) || {
+			input: null,
+			program: null,
+			traces: null,
+		});
 		
-		$ctrl.program = formatAST(inputData[1]);
-		$ctrl.traces = inputData[2].slice(1);
+		$ctrl.updateInput = function()
+		{
+			try
+			{
+				var program = ParseService.parse($ctrl.input);
+			}
+			catch(e)
+			{
+				program = ['Error', e.toString()];
+			}
+			
+			$ctrl.setData({
+				input: $ctrl.input,
+				program,
+				traces: [],
+			});
+		}
+		
+		// var rawData = require('raw-loader!./_temp_ast.txt');
+		// var inputData = ['run', ParseService.parse(rawData), ['traces']];
+		
+		// $ctrl.input = require('raw-loader!./_temp_input.txt');
+		
+		// $ctrl.program = formatAST(inputData[1]);
+		// $ctrl.traces = inputData[2].slice(1);
 		
 		function formatAST(node)
 		{
+			if(!node)
+			{
+				return node;
+			}
 			if(node[0] === 'TypeInfo')
 			{
 				node[1].node._type = node[1];
@@ -26,7 +70,7 @@ module.exports = {
 			return node;
 		}
 		
-		console.log(inputData);
+		console.log($ctrl.data);
 		
 		// function getTree(node)
 		// {
