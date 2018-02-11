@@ -22,11 +22,11 @@ module.exports = {
 		}
 		
 		// Load input/AST/trace data
-		$ctrl.setData(StorageService.get('data', true) || {
+		$ctrl.setData(StorageService.get('data') || {
 			input: null,
 			program: null,
 			traces: null,
-		});
+		}, true);
 		
 		$ctrl.updateInput = function()
 		{
@@ -64,6 +64,13 @@ module.exports = {
 				traces: [],
 			}))
 			.catch(console.error);
+		}
+		
+		$ctrl.showContext = true;
+		
+		$ctrl.toggleInputPanel = function()
+		{
+			$ctrl.showContext = !$ctrl.showContext;
 		}
 		
 		function formatAST(node)

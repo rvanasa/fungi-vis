@@ -1,52 +1,49 @@
 <div class="bg-dark text-muted p-2">
 	<div class="row">
-		<div class="col-sm-3 text-left"></div>
+		<div class="col-sm-3 text-left">
+			<div class="btn-group btn-group-sm">
+				<span class="btn btn-dark m-0" ng-click="$ctrl.toggleInputPanel()"><i class="fa fa-text-height"></i></span>
+			</div>
+		</div>
 		<div class="col-sm-6 text-center noselect">
 			<h1 class="page-title mb-0 mt-1">Human-Fungi Interface</h1>
 		</div>
 		<div class="col-sm-3 text-right">
-			<div class="btn-group btn-group-sm">
-				<span class="btn btn-dark m-0"><i class="fa fa-text-height"></i></span>
-			</div>
 		</div>
 	</div>
 </div>
-<!--<pre ng-bind="$ctrl.pretty"></pre>-->
-<!--<div id="ast-tree"></div>-->
 <div
 	ondragover="event.stopPropagation(); event.preventDefault(); $(this).addClass('dragdrop'); event.dataTransfer.dropEffect = 'link'"
 	ondragleave="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop')"
 	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])">
 	<div class="row">
 		<div class="col-md-6 p-0">
-			<!--<div id="ast-tree"></div>-->
-			<div class="w-100 half-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
-			<div class="container half-height v-scroll bg-light">
-				<div class="container o-80" ng-if="$ctrl.cursor.type">
-					<hr>
-					<h4 ng-bind="$ctrl.cursor.type.path[0]"></h4>
-					<p-context node="$ctrl.cursor.type.ctxt"></p-context>
-					<hr>
-					<!--<span class="text-muted">&Gamma;</span>-->
-					<!--<b class="text-muted">&#8870;</b>-->
-					<div ng-if="$ctrl.cursor.type.typ[0] == 'Ok'">
-						<p-td node="$ctrl.cursor.type.typ[1]"></p-td>
+			<div ng-if="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
+			<div ng-if="$ctrl.showContext" class="container full-height v-scroll bg-light">
+					<div class="container o-80" ng-if="$ctrl.cursor.type">
+						<!--<b class="text-muted">&#8870;</b>-->
+						<refresh target="$ctrl.cursor.type">
+							<h4 ng-bind="$ctrl.cursor.type.path"></h4>
+							<p-context node="::$ctrl.cursor.type.ctxt"></p-context>
+							<hr>
+							<div ng-if="$ctrl.cursor.type.typ[0] == 'Ok'">
+								<p-td node="$ctrl.cursor.type.typ[1]"></p-td>
+							</div>
+							<div ng-if="$ctrl.cursor.type.typ[0] == 'Err'">
+								<label class="text-danger" ng-bind="$ctrl.cursor.type.typ[1][0]"></label>
+								<span ng-repeat="data in $ctrl.cursor.type.typ[1]" ng-if="$index" ng-bind="data"></span>
+							</div>
+						</refresh>
 					</div>
-					<div ng-if="$ctrl.cursor.type.typ[0] == 'Err'">
-						<label class="text-danger" ng-bind="$ctrl.cursor.type.typ[1][0]"></label>
-						<span ng-repeat="data in $ctrl.cursor.type.typ[1]" ng-if="$index" ng-bind="data"></span>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="col-md-6 p-0 bg-light">
-			<!--<div id="ast-tree"></div>-->
 			<div class="pretty-panel container v-scroll full-height">
-				<!--<ast node="$ctrl.program"></ast>-->
-				<refresher target="$ctrl.program">
+				<refresh target="$ctrl.program">
 					<p-exp node="::$ctrl.program"></p-exp>
-				</refresher>
+				</refresh>
 			</div>
 		</div>
 	</div>
 </div>
+<!--<div id="ast-tree"></div>-->

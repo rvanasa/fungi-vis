@@ -1,6 +1,8 @@
 module.exports = {
 	template: `
-		<span class="d-inline-block indent" ng-class="{'pl2': !$ctrl.collapsed}" ng-click="$ctrl.toggle(); $event.stopPropagation()">
+		<span class="d-inline-block indent" ng-class="{'pl-3': !$ctrl.collapsed}"
+			ng-click="$ctrl.collapsed = false; $event.stopPropagation()"
+			ng-dblclick="$ctrl.collapsed = true; $event.stopPropagation()">
 			<span class="indent-collapse clickable" ng-show="$ctrl.collapsed">(..)</span>
 			<ng-transclude ng-show="!$ctrl.collapsed">
 		</span>`,
@@ -11,10 +13,5 @@ module.exports = {
 	controller: function()
 	{
 		var $ctrl = this;
-		
-		$ctrl.toggle = function()
-		{
-			$ctrl.collapsed = !$ctrl.collapsed;
-		}
 	}
 }
