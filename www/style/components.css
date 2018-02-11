@@ -20,3 +20,8 @@
 .o-80 {
 	opacity: .8;
 }
+
+.dragdrop {
+	box-shadow: 0 0 16px #FFF;
+	opacity: .5;
+}

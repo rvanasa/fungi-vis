@@ -24,7 +24,7 @@ module.exports = function(type)
 			
 			$ctrl.select = function()
 			{
-				if($ctrl.node._type)
+				if($ctrl.node && $ctrl.node._type)
 				{
 					Cursor.type = $ctrl.node._type;
 					return true;

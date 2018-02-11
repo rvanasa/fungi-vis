@@ -1,6 +1,6 @@
 module.exports = {
 	template: require('./app.html'),
-	controller: function(ParseService, StorageService, Cursor)
+	controller: function($q, ParseService, StorageService, Cursor)
 	{
 		var $ctrl = this;
 		
@@ -44,6 +44,26 @@ module.exports = {
 				program,
 				traces: [],
 			});
+		}
+		
+		$ctrl.loadFile = function(file)
+		{
+			$q((resolve, reject) =>
+			{
+				var reader = new FileReader();
+				reader.onload = function(event)
+				{
+					resolve(event.target.result);
+				}
+				reader.readAsDataURL(file);
+			})
+			.then(data => window.atob(data.substring(data.lastIndexOf(',') + 1)))
+			.then(data => $ctrl.setData({
+				input: data,
+				program: ParseService.parse(data),
+				traces: [],
+			}))
+			.catch(console.error);
 		}
 		
 		function formatAST(node)
