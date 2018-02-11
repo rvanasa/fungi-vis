@@ -1,1 +1,1 @@
-module.exports = module.exports = require('./schema')('(', ')');
+module.exports = module.exports = require('./schema')('[', ']');
