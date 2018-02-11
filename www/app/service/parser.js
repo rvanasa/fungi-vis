@@ -64,6 +64,7 @@ var COLON = keyword(':');
 var Exp = p.lazy('Expression', () => p.alt(
 	Literal,
 	Block,
+	Sequence,
 	Composite,
 ));
 
@@ -71,6 +72,9 @@ var Literal = p.alt(STR, NUM, TRUE, FALSE);
 
 var Composite = seq(IDENT, opt(surround(L_PAREN, Exp.skip(opt(COMMA)).many(), R_PAREN), []),
 	(id, values) => [id].concat(values));
+
+var Sequence = seq(opt(IDENT), surround(L_BRACKET, Exp.skip(opt(COMMA)).many(), R_BRACKET),
+	(id, values) => values);
 
 var KVPair = p.seq(IDENT.skip(COLON), Exp);
 

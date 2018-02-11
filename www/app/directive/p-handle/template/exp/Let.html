@@ -1,6 +1,6 @@
 <keyword>let</keyword>
 <id-var name="$ctrl.node[1]" type="decl"></id-var>
-<span ng-if="$ctrl.node[2][0] != 'AnnoC'">
+<span ng-if="!$ctrl.node[2][0].startsWith('Anno')">
 	<operator>=</operator>
 	<indent>
 		<p-exp node="$ctrl.node[2]" context="$parent"></p-exp>
@@ -10,6 +10,16 @@
 	<operator>:</operator>
 	<indent collapsed="true">
 		<p-ctype node="$ctrl.node[2][2]"></p-ctype>
+	</indent>
+	<operator>=</operator>
+	<indent>
+		<p-exp node="$ctrl.node[2][1]" context="$parent"></p-exp>
+	</indent>
+</span>
+<span ng-if="$ctrl.node[2][0] == 'AnnoE'">
+	<operator>:</operator>
+	<indent collapsed="true">
+		<p-ceffect node="$ctrl.node[2][2]"></p-ceffect>
 	</indent>
 	<operator>=</operator>
 	<indent>

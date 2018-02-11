@@ -58,10 +58,11 @@ module.exports = {
 				reader.readAsDataURL(file);
 			})
 			.then(data => window.atob(data.substring(data.lastIndexOf(',') + 1)))
-			.then(data => $ctrl.setData({
-				input: data,
-				program: ParseService.parse(data),
-				traces: [],
+			.then(ParseService.parse)
+			.then(node => $ctrl.setData({
+				input: node[1].input.replace(/\\n/g, '\n'/*temp?*/),
+				program: node[1].program,
+				traces: node[1].traces,
 			}))
 			.catch(console.error);
 		}
@@ -79,9 +80,15 @@ module.exports = {
 			{
 				return node;
 			}
+			if(node[0] === 'DebugLabel')
+			{
+				let sub = formatAST(node[3]);
+				sub._label = node;
+				return sub;
+			}
 			if(node[0] === 'TypeInfo')
 			{
-				var sub = formatAST(node[1].node);
+				let sub = formatAST(node[1].node);
 				sub._type = node[1];
 				return sub;
 			}
