@@ -1,1 +1,1 @@
-module.exports = require('./schema')('td');
+module.exports = require('./schema')('{{$ctrl.cursor.type.category}}');
