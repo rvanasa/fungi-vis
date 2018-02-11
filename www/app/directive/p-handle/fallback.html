@@ -1,9 +1,1 @@
-<code ng-bind="$ctrl.node[0]"></code>
-<enclose-paren ng-if="$ctrl.node.length > 1">
-	<span ng-repeat="item in $ctrl.node" ng-if="$index">
-		<indent>
-			<literal ng-if="!$ctrl.isNode(item)"><span ng-bind="$ctrl.toJSON(item)"></span></literal>
-			<p-exp ng-if="$ctrl.isNode(item)" node="item"></p-exp>
-		</indent>
-	</span>
-</enclose-paren>
+<ast node="$ctrl.node"></ast>

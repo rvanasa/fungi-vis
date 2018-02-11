@@ -2,7 +2,6 @@ module.exports = {
 	template: require('./ast.html'),
 	bindings: {
 		node: '<',
-		indent: '<',
 	},
 	controller: function()
 	{
@@ -15,6 +14,6 @@ module.exports = {
 			return Array.isArray(item);
 		}
 		
-		$ctrl.stringify = JSON.stringify;
+		$ctrl.toJSON = JSON.stringify;
 	}
 };

@@ -9,7 +9,7 @@ var isBuild = ENV === 'build';
 
 var srcPath = __dirname + '/www';
 var destPath = __dirname + '/dist';
-var rustPath = __dirname + '/lib';
+// var rustPath = __dirname + '/lib';
 
 var config = {
 	entry: {

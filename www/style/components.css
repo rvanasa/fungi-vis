@@ -8,6 +8,15 @@
 	max-height: calc(100vh - 48px);
 }
 
+.half-height {
+	min-height: calc(50vh - 24px);
+	max-height: calc(50vh - 24px);
+}
+
 .v-scroll {
 	overflow-y: scroll;
+}
+
+.o-80 {
+	opacity: .8;
 }

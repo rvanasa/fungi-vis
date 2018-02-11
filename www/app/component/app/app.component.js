@@ -1,8 +1,10 @@
 module.exports = {
 	template: require('./app.html'),
-	controller: function(ParseService, StorageService)
+	controller: function(ParseService, StorageService, Cursor)
 	{
 		var $ctrl = this;
+		
+		$ctrl.cursor = Cursor;
 		
 		$ctrl.setData = function(data, oneTime)
 		{
@@ -44,14 +46,6 @@ module.exports = {
 			});
 		}
 		
-		// var rawData = require('raw-loader!./_temp_ast.txt');
-		// var inputData = ['run', ParseService.parse(rawData), ['traces']];
-		
-		// $ctrl.input = require('raw-loader!./_temp_input.txt');
-		
-		// $ctrl.program = formatAST(inputData[1]);
-		// $ctrl.traces = inputData[2].slice(1);
-		
 		function formatAST(node)
 		{
 			if(!node)
@@ -60,8 +54,9 @@ module.exports = {
 			}
 			if(node[0] === 'TypeInfo')
 			{
-				node[1].node._type = node[1];
-				return formatAST(node[1].node);
+				var sub = formatAST(node[1].node);
+				sub._type = node[1];
+				return sub;
 			}
 			else if(Array.isArray(node))
 			{

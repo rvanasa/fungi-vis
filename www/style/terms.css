@@ -11,6 +11,18 @@
 	color: var(--orange);
 }
 
+.kind {
+	color: var(--teal);
+}
+
+.sort {
+	color: var(--cyan);
+}
+
+.prop {
+	color: var(--pink);
+}
+
 .literal {
 	color: var(--green);
 }

@@ -1,4 +1,4 @@
 module.exports = {
-	template: `<ng-transclude class="lambda">`,
+	template: `<ng-transclude class="lambda" />`,
 	transclude: true,
 };
