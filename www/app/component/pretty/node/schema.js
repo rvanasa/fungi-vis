@@ -28,17 +28,29 @@ module.exports = function(type)
 				var parent = $scope.$parent;
 				while(parent)
 				{
-					if(path.length > 8)
+					if(parent.$ctrl)
 					{
-						path.unshift(['...']);
-						break;
-					}
-					
-					if(parent.$ctrl && parent.$ctrl.node)
-					{
-						path.unshift(parent.$ctrl.node);
+						var node = parent.$ctrl.node;
+						if(node && !path.includes(node))
+						{
+							path.unshift(node);
+							if(node._label)
+							{
+								path.unshift(['DebugLabel']);
+							}
+							if(node._type)
+							{
+								path.unshift(['TypeInfo']);
+							}
+						}
 					}
 					parent = parent.$parent;
+				}
+				
+				if(path.length > 5)
+				{
+					path = path.slice(-5);
+					path.unshift(['...']);
 				}
 				Cursor.path = path;
 				
