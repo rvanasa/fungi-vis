@@ -9,7 +9,7 @@ module.exports = function(type)
 			node: '<',
 			context: '<',
 		},
-		controller: function(Cursor)
+		controller: function($scope, Cursor)
 		{
 			var $ctrl = this;
 			
@@ -24,6 +24,24 @@ module.exports = function(type)
 			
 			$ctrl.select = function()
 			{
+				var path = [$ctrl.node];
+				var parent = $scope.$parent;
+				while(parent)
+				{
+					if(path.length > 8)
+					{
+						path.unshift(['...']);
+						break;
+					}
+					
+					if(parent.$ctrl && parent.$ctrl.node)
+					{
+						path.unshift(parent.$ctrl.node);
+					}
+					parent = parent.$parent;
+				}
+				Cursor.path = path;
+				
 				if($ctrl.node && $ctrl.node._type)
 				{
 					Cursor.type = $ctrl.node._type;

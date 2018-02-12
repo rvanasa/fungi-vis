@@ -20,6 +20,11 @@
 		<div class="col-md-6 p-0">
 			<div ng-if="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
 			<div ng-if="$ctrl.showContext" class="container full-height v-scroll bg-light">
+					<hr>
+					<refresh target="$ctrl.cursor.path" class="o-80">
+						<code ng-repeat="node in $ctrl.cursor.path track by $index" ng-bind="node[0]"></code>
+					</refresh>
+					<hr>
 					<div class="container o-80" ng-if="$ctrl.cursor.type">
 						<!--<b class="text-muted">&#8870;</b>-->
 						<refresh target="$ctrl.cursor.type">
