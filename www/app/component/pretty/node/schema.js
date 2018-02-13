@@ -4,12 +4,12 @@ module.exports = function(type)
 		template: `
 			<p-handle type="${type}"
 				ng-mouseover="$ctrl.select() && $event.stopPropagation()"
-				ng-mouseout="$ctrl.deselect() && $event.stopPropagation()" />`,
+				ng-mouseout="$ctrl.deselect()" />`,
 		bindings: {
 			node: '<',
 			context: '<',
 		},
-		controller: function($scope, Cursor)
+		controller: function(Cursor)
 		{
 			var $ctrl = this;
 			
@@ -24,37 +24,33 @@ module.exports = function(type)
 			
 			$ctrl.select = function()
 			{
-				var path = [];
-				var parent = $scope;
-				while(parent)
+				if(!Cursor.path)
 				{
-					if(parent.$ctrl)
+					var path = [];
+					var node = $ctrl.node;
+					while(node)
 					{
-						var node = parent.$ctrl.node;
-						if(node && !path.includes(node))
+						path.unshift(node);
+						if(node._label)
 						{
-							path.unshift(node);
-							if(node._label)
-							{
-								path.unshift(['DebugLabel']);
-							}
-							if(node._type)
-							{
-								path.unshift(['TypeInfo']);
-							}
+							path.unshift(['DebugLabel']);
 						}
+						if(node._type)
+						{
+							path.unshift(['TypeInfo']);
+						}
+						node = node._parent;
 					}
-					parent = parent.$parent;
+					
+					if(path.length > 5)
+					{
+						path = path.slice(-5);
+						path.unshift(['...']);
+					}
+					Cursor.path = path;
 				}
 				
-				if(path.length > 5)
-				{
-					path = path.slice(-5);
-					path.unshift(['...']);
-				}
-				Cursor.path = path;
-				
-				if($ctrl.node && $ctrl.node._type)
+				if($ctrl.node._type)
 				{
 					Cursor.type = $ctrl.node._type;
 					return true;
@@ -63,8 +59,14 @@ module.exports = function(type)
 			
 			$ctrl.deselect = function()
 			{
-				// Cursor.type = null;
-				// return true;
+				if(Cursor.path && Cursor.path[Cursor.path.length - 1] === $ctrl.node)
+				{
+					Cursor.path = null;
+				}
+				if(Cursor.type === $ctrl.node._type)
+				{
+					Cursor.type = null;
+				}
 			}
 		}
 	};

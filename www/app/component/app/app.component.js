@@ -76,27 +76,37 @@ module.exports = {
 		
 		function formatAST(node)
 		{
-			if(!node)
+			if(!Array.isArray(node))
 			{
 				return node;
 			}
-			if(node[0] === 'DebugLabel')
+			else if(node[0] === 'DebugLabel')
 			{
 				let sub = formatAST(node[3]);
+				sub._parent = node;
 				sub._label = node;
 				return sub;
 			}
-			if(node[0] === 'TypeInfo')
+			else if(node[0] === 'TypeInfo')
 			{
 				let sub = formatAST(node[1].node);
+				sub._parent = node;
 				sub._type = node[1];
 				return sub;
 			}
-			else if(Array.isArray(node))
+			
+			let sub = [];
+			for(var i = 0; i < node.length; i++)
 			{
-				return node.map(formatAST);
+				let s = node[i];
+				if(Array.isArray(s))
+				{
+					s = formatAST(s);
+					s._parent = sub;
+				}
+				sub[i] = s;
 			}
-			return node;
+			return sub;
 		}
 		
 		console.log($ctrl.data);
