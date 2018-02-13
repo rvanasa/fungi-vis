@@ -100,6 +100,7 @@ module.exports = {
 		}
 		
 		console.log($ctrl.data);
+		console.log($ctrl.program);
 		
 		// function getTree(node)
 		// {

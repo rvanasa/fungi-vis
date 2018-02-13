@@ -24,8 +24,8 @@ module.exports = function(type)
 			
 			$ctrl.select = function()
 			{
-				var path = [$ctrl.node];
-				var parent = $scope.$parent;
+				var path = [];
+				var parent = $scope;
 				while(parent)
 				{
 					if(parent.$ctrl)
