@@ -1,10 +1,7 @@
 <lambda>exists</lambda>
 <id-type name="$ctrl.node[1]"></id-type>
-<lambda>:</lambda>
-<p-sort node="$ctrl.node[2]"></p-sort>
-<lambda>|</lambda>
-<p-prop node="$ctrl.node[3]"></p-prop>
-<lambda>.</lambda>
+<operator>:</operator>
+<p-sort node="$ctrl.node[2]"></p-sort><span ng-if="$ctrl.node[3][0]!='Tt'"> <operator>|</operator> <p-prop node="$ctrl.node[3]"></p-prop></span><lambda>.</lambda>
 <indent>
 	<p-type node="$ctrl.node[4]"></p-type>
 </indent>
