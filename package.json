@@ -1,10 +1,10 @@
 {
-  "name": "iodyn-web",
+  "name": "fungi-vis",
   "version": "0.1.0",
-  "description": "IODyn web components",
+  "description": "Fungi Visualization Tool",
   "main": "index.js",
-  "repository": "",
-  "author": "",
+  "repository": "https://github.com/Adapton/fungi-vis.git",
+  "author": "Adapton Project (http://adapton.org)",
   "scripts": {
     "start": "node index"
   },
