@@ -3,10 +3,10 @@ module.exports = function(type)
 	return {
 		template: `
 			<p-handle type="${type}"
-				ng-click="$ctrl.select() && $event.stopPropagation()"
+				ng-mouseover="$ctrl.focus(); $event.stopPropagation()"
+				ng-mouseout="$ctrl.unfocus(); $event.stopPropagation()"
+				ng-mousedown="$ctrl.select() && $event.stopPropagation()"
 			/>`,
-				// ng-mouseover="$ctrl.select() && $event.stopPropagation()"
-				// ng-mouseout="$ctrl.deselect()"
 		bindings: {
 			node: '<',
 			context: '<',
@@ -24,7 +24,7 @@ module.exports = function(type)
 			
 			$ctrl.cursor = Cursor;
 			
-			$ctrl.select = function()
+			$ctrl.focus = function()
 			{
 				if(!Cursor.path)
 				{
@@ -52,28 +52,32 @@ module.exports = function(type)
 					Cursor.path = path;
 				}
 				
+				// if($ctrl.node._type)
+				// {
+				// 	Cursor.type = $ctrl.node._type;
+				// 	return true;
+				// }
+			}
+			
+			$ctrl.unfocus = function()
+			{
+				if(Cursor.path && Cursor.path[Cursor.path.length - 1] === $ctrl.node)
+				{
+					Cursor.path = null;
+				}
+				// if(Cursor.type === $ctrl.node._type)
+				// {
+				// 	Cursor.type = null;
+				// }
+			}
+			
+			$ctrl.select = function()
+			{
 				if($ctrl.node._type)
 				{
 					Cursor.type = $ctrl.node._type;
 					return true;
 				}
-			}
-			
-			$ctrl.deselect = function()
-			{
-				if($ctrl.isSelected())
-				{
-					Cursor.path = null;
-				}
-				if(Cursor.type === $ctrl.node._type)
-				{
-					Cursor.type = null;
-				}
-			}
-			
-			$ctrl.isSelected = function()
-			{
-				return Cursor.path && Cursor.path[Cursor.path.length - 1] === $ctrl.node;
 			}
 		}
 	};
