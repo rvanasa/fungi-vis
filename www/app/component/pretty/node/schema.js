@@ -3,8 +3,10 @@ module.exports = function(type)
 	return {
 		template: `
 			<p-handle type="${type}"
-				ng-mouseover="$ctrl.select() && $event.stopPropagation()"
-				ng-mouseout="$ctrl.deselect()" />`,
+				ng-click="$ctrl.select() && $event.stopPropagation()"
+			/>`,
+				// ng-mouseover="$ctrl.select() && $event.stopPropagation()"
+				// ng-mouseout="$ctrl.deselect()"
 		bindings: {
 			node: '<',
 			context: '<',
@@ -37,7 +39,7 @@ module.exports = function(type)
 						}
 						if(node._type)
 						{
-							path.unshift(['TypeInfo']);
+							path.unshift(['Der']);
 						}
 						node = node._parent;
 					}
@@ -59,7 +61,7 @@ module.exports = function(type)
 			
 			$ctrl.deselect = function()
 			{
-				if(Cursor.path && Cursor.path[Cursor.path.length - 1] === $ctrl.node)
+				if($ctrl.isSelected())
 				{
 					Cursor.path = null;
 				}
@@ -67,6 +69,11 @@ module.exports = function(type)
 				{
 					Cursor.type = null;
 				}
+			}
+			
+			$ctrl.isSelected = function()
+			{
+				return Cursor.path && Cursor.path[Cursor.path.length - 1] === $ctrl.node;
 			}
 		}
 	};

@@ -24,4 +24,9 @@
 .dragdrop {
 	box-shadow: 0 0 16px #FFF;
 	opacity: .5;
+	border: 5px dashed #AAA;
+}
+
+.sink {
+	box-shadow: 0 -4px 4px #EEE inset;
 }

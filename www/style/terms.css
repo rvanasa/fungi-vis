@@ -1,3 +1,7 @@
+p-handle.selected {
+	background: #AAA;
+}
+
 .keyword {
 	color: var(--blue);
 }

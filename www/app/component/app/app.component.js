@@ -87,9 +87,9 @@ module.exports = {
 				sub._label = node;
 				return sub;
 			}
-			else if(node[0] === 'TypeInfo')
+			else if(node[0] === 'Der')
 			{
-				let sub = formatAST(node[1].node);
+				let sub = formatAST(node[1].rule);
 				sub._parent = node;
 				sub._type = node[1];
 				return sub;

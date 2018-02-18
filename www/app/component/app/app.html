@@ -15,38 +15,42 @@
 <div
 	ondragover="event.stopPropagation(); event.preventDefault(); $(this).addClass('dragdrop'); event.dataTransfer.dropEffect = 'link'"
 	ondragleave="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop')"
-	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])">
+	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])"
+	ng-click="$ctrl.cursor.selected = null">
 	<div class="row">
 		<div class="col-md-6 p-0">
 			<div ng-if="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
-			<div ng-if="$ctrl.showContext" class="container full-height v-scroll bg-light">
-					<hr>
-					<refresh target="$ctrl.cursor.path">
-						<code class="text-muted" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>
-					</refresh>
-					<hr>
+			<div ng-if="$ctrl.showContext" class="container full-height bg-light">
 					<div class="container o-80" ng-if="$ctrl.cursor.type">
 						<!--<b class="text-muted">&#8870;</b>-->
 						<refresh target="$ctrl.cursor.type">
-							<h4 ng-bind="$ctrl.cursor.type.path"></h4>
-							<p-context node="::$ctrl.cursor.type.ctxt"></p-context>
-							<hr>
-							<div ng-if="$ctrl.cursor.type.typ[0] == 'Ok'">
-								<p-td node="$ctrl.cursor.type.typ[1]"></p-td>
+							<div class="half-height v-scroll sink">
+								<p-context node="::$ctrl.cursor.type.ctx"></p-context>
 							</div>
-							<div ng-if="$ctrl.cursor.type.typ[0] == 'Err'">
-								<label class="text-danger" ng-bind="$ctrl.cursor.type.typ[1][0]"></label>
-								<operator ng-if="$ctrl.cursor.type.typ[1].length > 1">:</operator>
-								<indent>
-									<ng-switch on="$ctrl.cursor.type.typ[1][0]" ng-repeat="item in $ctrl.cursor.type.typ[1]" ng-if="$index">
-										<p-type ng-switch-when="CheckFailType" node="item"></p-type>
-										<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
-										<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
-										<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
-										<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
-										<span ng-switch-default ng-bind="item"></span>
-									</ng-switch>
-								</indent>
+							<div class="half-height v-scroll">
+								<hr class="mt-0">
+								<!--<refresh target="$ctrl.cursor.path">-->
+								<!--	<code class="text-muted" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>-->
+								<!--</refresh>-->
+								<!--<hr>-->
+								<label ng-bind="$ctrl.cursor.type.dir[0]"></label>
+								<div ng-if="$ctrl.cursor.type.clas[0] == 'Ok'">
+									<p-td node="$ctrl.cursor.type.clas[1]"></p-td>
+								</div>
+								<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'">
+									<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
+									<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
+									<indent>
+										<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
+											<p-type ng-switch-when="CheckFailType" node="item"></p-type>
+											<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
+											<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
+											<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
+											<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
+											<span ng-switch-default ng-bind="item"></span>
+										</ng-switch>
+									</indent>
+								</div>
 							</div>
 						</refresh>
 					</div>
