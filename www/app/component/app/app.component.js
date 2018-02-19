@@ -84,7 +84,9 @@ module.exports = {
 			{
 				let sub = formatAST(node[3]);
 				node[3] = sub;
-				sub._label = node;
+				sub._debug = node;
+				// sub._name = node[1][1];
+				// sub._label = node[2][1];
 				return sub;
 			}
 			else if(node[0] === 'Der')
@@ -92,15 +94,6 @@ module.exports = {
 				let sub = formatAST(node[1].rule);
 				node[1].rule = sub;
 				sub._type = node[1];
-				return sub;
-			}
-			else if(node[0] === 'DebugLabel')
-			{
-				let sub = formatAST(node[3]);
-				node[3] = sub;
-				sub._debug = node;
-				// sub._name = node[1][1];
-				// sub._label = node[2][1];
 				return sub;
 			}
 			
