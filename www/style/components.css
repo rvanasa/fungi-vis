@@ -30,3 +30,12 @@
 .sink {
 	box-shadow: 0 -4px 4px --var(gray-dark) inset;
 }
+
+.logo {
+	border-radius: 40%;
+}
+
+.logo:hover {
+	border-radius: 0;
+	transform: scale(1.1);
+}

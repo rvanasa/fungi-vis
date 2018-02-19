@@ -5,7 +5,7 @@
 
 :not(.no-transition) {
 	transition: .2s ease-out;
-	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height;
+	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height, border-radius;
 }
 
 :root {
