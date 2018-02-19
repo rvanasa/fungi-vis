@@ -64,7 +64,7 @@
 	box-shadow: 0 0 2px 1px var(--purple);
 	transform: scale(1.05, 1.1);
 	/*background: #FFF;*/
-	background: var(--darker);
+	background: var(--darkest);
 }
 
 id-var[type=decl] {
