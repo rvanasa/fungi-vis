@@ -25,12 +25,10 @@
 			<div ng-show="$ctrl.showContext" class="w-100 full-height">
 				<div class="pl-3 o-80" ng-if="$ctrl.cursor.type">
 					<refresh target="$ctrl.cursor.type">
-						<div class="half-height v-scroll sink d-flex">
-							<div class="container mt-3 align-self-end">
+						<div class="full-height v-scroll">
+							<div class="container mt-3">
 								<p-context node="::$ctrl.cursor.type.ctx"></p-context>
 							</div>
-						</div>
-						<div class="half-height v-scroll">
 							<div class="container mt-3">
 								<hr class="mt-0">
 								<b class="text-warning">&#8870;</b>
