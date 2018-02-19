@@ -1,7 +1,3 @@
-p-handle.selected {
-	background: #AAA;
-}
-
 .keyword {
 	color: var(--blue);
 }
@@ -44,8 +40,8 @@ p-handle.selected {
 }
 
 .indent:hover {
-	background: white;
-	box-shadow: 0 2px 12px #AAA;
+	background: var(--dark);
+	box-shadow: 0 2px 14px var(--darkest);
 }
 
 .indent-collapse:hover {
@@ -65,9 +61,10 @@ p-handle.selected {
 .id-var.highlighted {
 	box-shadow: 0 0 2px 1px var(--purple);
 	transform: scale(1.05, 1.1);
-	background: #FFF;
+	/*background: #FFF;*/
+	background: var(--darker);
 }
 
 id-var[type=decl] {
-	border-bottom: 1px solid #DDD;
+	border-bottom: 1px solid #777;
 }

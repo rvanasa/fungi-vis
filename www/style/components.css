@@ -28,5 +28,5 @@
 }
 
 .sink {
-	box-shadow: 0 -4px 4px #EEE inset;
+	box-shadow: 0 -4px 4px --var(gray-dark) inset;
 }

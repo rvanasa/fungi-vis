@@ -8,6 +8,12 @@
 	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height;
 }
 
+:root {
+	--dark: #1C2030;
+	--darker: #131722;
+	--darkest: #07090D;
+}
+
 html, body {
 	overflow-x: hidden;
 	width: 100%;
@@ -41,23 +47,28 @@ textarea {
 }
 
 .bg-dark {
-	background: #1C2030;
+	background: var(--dark);
 	color: #FFF;
 }
 
 .bg-darker {
-	background: #131722;
+	background: var(--darker);
 	color: #FFF;
 }
 
 .bg-darkest {
-	background: #000;
+	background: var(--darkest);
 	color: #FFF;
+}
+
+.bg-dark hr, .bg-darker hr, .bg-darkest hr {
+	border-color: var(--gray-dark);
 }
 
 ::selection {
     background: #DDD;
-    color: #444;
+    /*color: #444;*/
+    color: #DDD;
 }
 
 .noselect {
@@ -77,15 +88,15 @@ textarea {
 ::-webkit-scrollbar-track {
     background: #DDD;
 }
- 
-::-webkit-scrollbar-thumb {
-    background: #AAA;
-}
 
 ::-webkit-scrollbar-track:hover {
     background: #CCC;
 }
  
+::-webkit-scrollbar-thumb {
+    background: #777;
+}
+ 
 ::-webkit-scrollbar-thumb:hover {
-    background: #888;
+    background: #555;
 }

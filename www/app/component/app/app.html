@@ -1,8 +1,8 @@
-<div class="bg-dark text-muted p-2">
+<div class="bg-light text-muted p-2">
 	<div class="row">
 		<div class="col-sm-3 text-left">
 			<div class="btn-group btn-group-sm">
-				<span class="btn btn-dark m-0" ng-click="$ctrl.toggleInputPanel()"><i class="fa fa-text-height"></i></span>
+				<span class="btn btn-light text-muted m-0" ng-click="$ctrl.toggleInputPanel()"><i class="fa fa-text-height"></i></span>
 			</div>
 		</div>
 		<div class="col-sm-6 text-center noselect">
@@ -17,16 +17,19 @@
 	ondragleave="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop')"
 	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])">
 	<div class="row">
-		<div class="col-md-6 p-0">
+		<div class="col-md-6 bg-darker p-0">
 			<div ng-if="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
-			<div ng-if="$ctrl.showContext" class="container full-height bg-light">
-					<div class="container o-80" ng-if="$ctrl.cursor.type">
-						<!--<b class="text-muted">&#8870;</b>-->
-						<refresh target="$ctrl.cursor.type">
-							<div class="half-height v-scroll sink">
+			<div ng-if="$ctrl.showContext" class="w-100 full-height">
+				<div class="pl-3 o-80" ng-if="$ctrl.cursor.type">
+					<!--<b class="text-muted">&#8870;</b>-->
+					<refresh target="$ctrl.cursor.type">
+						<div class="half-height v-scroll sink">
+							<div class="container mt-3">
 								<p-context node="::$ctrl.cursor.type.ctx"></p-context>
 							</div>
-							<div class="half-height v-scroll">
+						</div>
+						<div class="half-height v-scroll">
+							<div class="container mt-3">
 								<hr class="mt-0">
 								<label ng-bind="$ctrl.cursor.type.dir[0]"></label>
 								<div ng-if="$ctrl.cursor.type.clas[0] == 'Ok'">
@@ -47,20 +50,21 @@
 									</indent>
 								</div>
 							</div>
-						</refresh>
-					</div>
+						</div>
+					</refresh>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6 p-0 bg-light">
+		<div class="col-md-6 p-0">
 			<div class="pretty-panel container v-scroll full-height">
 				<refresh target="$ctrl.program">
 					<p-exp node="::$ctrl.program"></p-exp>
 				</refresh>
 			</div>
 		</div>
-		<div style="position:absolute; bottom:1em; right:1em">
+		<div style="position:absolute; bottom:1em; right:1em; opacity:.95">
 			<refresh target="$ctrl.cursor.path">
-				<code class="text-muted" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>
+				<code class="text-muted bg-dark" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>
 			</refresh>
 		</div>
 	</div>
