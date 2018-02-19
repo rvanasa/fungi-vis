@@ -3,7 +3,7 @@ module.exports = function(type)
 	return {
 		template: `
 			<p-handle type="${type}"
-				ng-mouseover="$ctrl.focus(); $event.stopPropagation()"
+				ng-mouseenter="$ctrl.focus(); $event.stopPropagation()"
 				ng-mouseout="$ctrl.unfocus(); $event.stopPropagation()"
 				ng-mousedown="$ctrl.select() && $event.stopPropagation()"
 			/>`,
