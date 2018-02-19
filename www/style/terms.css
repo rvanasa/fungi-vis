@@ -3,6 +3,10 @@
 	font-weight: bold;
 }
 
+.keyword-module {
+	font-weight: normal;
+}
+
 .keyword-exp {
 	color: var(--blue);
 }
@@ -29,14 +33,19 @@
 
 .keyword-index {
 	color: var(--orange);
+	font-weight: normal;
 }
 
 .keyword-prop {
-	color: var(--indigo);
+	color: var(--secondary);
 }
 
 .keyword-tcons {
 	color: var(--pink);
+}
+
+.keyword-ctype {
+	color: var(--purple);
 }
 
 .keyword-ceffect {
@@ -86,6 +95,6 @@
 	background: var(--darkest);
 }
 
-id-var[type=decl], id-type[type=decl] {
+id-var[type=decl], id-type[type=decl], id-name[type=decl] {
 	border-bottom: 1px solid #777;
 }
