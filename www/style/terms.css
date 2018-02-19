@@ -1,27 +1,46 @@
 .keyword {
+	color: var(--yellow);
+	font-weight: bold;
+}
+
+.keyword-exp {
 	color: var(--blue);
-	font-weight: bold;
 }
 
-.lambda {
+.keyword-primapp {
+	color: var(--blue);
+}
+
+.keyword-val {
 	color: var(--red);
-	font-weight: bold;
 }
 
-.builtin {
-	color: var(--orange);
-}
-
-.kind {
-	color: var(--teal);
-}
-
-.sort {
+.keyword-type {
 	color: var(--cyan);
 }
 
-.prop {
+.keyword-kind {
+	color: var(--teal);
+}
+
+.keyword-sort {
+	color: var(--cyan);
+}
+
+.keyword-index {
+	color: var(--orange);
+}
+
+.keyword-prop {
+	color: var(--indigo);
+}
+
+.keyword-tcons {
 	color: var(--pink);
+}
+
+.keyword-ceffect {
+	color: var(--purple);
 }
 
 .literal {
@@ -67,6 +86,6 @@
 	background: var(--darkest);
 }
 
-id-var[type=decl] {
+id-var[type=decl], id-type[type=decl] {
 	border-bottom: 1px solid #777;
 }
