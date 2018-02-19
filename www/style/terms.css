@@ -28,7 +28,7 @@
 }
 
 .keyword-sort {
-	color: var(--cyan);
+	color: var(--purple);
 }
 
 .keyword-index {
@@ -41,15 +41,16 @@
 }
 
 .keyword-tcons {
-	color: var(--pink);
+	color: var(--orange);
+	font-weight: normal;
 }
 
 .keyword-ctype {
-	color: var(--purple);
+	color: var(--pink);
 }
 
 .keyword-ceffect {
-	color: var(--purple);
+	color: var(--pink);
 }
 
 .literal {
