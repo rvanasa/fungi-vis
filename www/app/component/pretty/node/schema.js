@@ -33,20 +33,12 @@ module.exports = function(type)
 					while(node)
 					{
 						path.unshift(node);
-						if(node._debug)
-						{
-							path.unshift(['DebugLabel']);
-						}
-						if(node._type)
-						{
-							path.unshift(['Der']);
-						}
 						node = node._parent;
 					}
 					
-					if(path.length > 5)
+					if(path.length > 8)
 					{
-						path = path.slice(-5);
+						path = path.slice(-8);
 						path.unshift(['...']);
 					}
 					Cursor.path = path;

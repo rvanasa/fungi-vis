@@ -33,15 +33,8 @@
 						<div class="half-height v-scroll">
 							<div class="container mt-3">
 								<hr class="mt-0">
-								<!--<div style="min-height:24px">-->
-								<!--	<refresh target="$ctrl.cursor.path">-->
-								<!--		<code class="text-muted bg-darker" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>-->
-								<!--	</refresh>-->
-								<!--</div>-->
-								<!--<hr>-->
-								<!--<span class="text-muted">&Gamma;</span>-->
 								<b class="text-warning">&#8870;</b>
-								<span ng-bind="$ctrl.cursor.type.rule[0]"></span>
+								<span class="text-muted"><span ng-bind="$ctrl.cursor.type.vis[1].tmfam"></span>::</span><span ng-bind="$ctrl.cursor.type.rule[0]"></span>
 								<ng-switch on="$ctrl.cursor.type.dir[0]" class="text-warning">
 									<b ng-switch-when="Synth">&rArr;</b>
 									<b ng-switch-when="Check">&lArr;</b>
