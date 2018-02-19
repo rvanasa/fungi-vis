@@ -21,7 +21,7 @@ module.exports = function($window, $timeout)
 			editor.$blockScrolling = Infinity;
 			
 			editor.setShowPrintMargin(false);
-			editor.setTheme('ace/theme/textmate');
+			editor.setTheme('ace/theme/tomorrow_night_bright');
 			editor.setOptions({
 				fontSize: 14,
 				enableBasicAutocompletion: true,

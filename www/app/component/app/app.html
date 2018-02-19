@@ -18,8 +18,8 @@
 	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])">
 	<div class="row">
 		<div class="col-md-6 bg-darker p-0">
-			<div ng-if="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
-			<div ng-if="$ctrl.showContext" class="w-100 full-height">
+			<div ng-show="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
+			<div ng-show="$ctrl.showContext" class="w-100 full-height">
 				<div class="pl-3 o-80" ng-if="$ctrl.cursor.type">
 					<!--<b class="text-muted">&#8870;</b>-->
 					<refresh target="$ctrl.cursor.type">
