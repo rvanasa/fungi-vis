@@ -24,7 +24,6 @@
 			<div ng-show="!$ctrl.showContext" class="w-100 full-height" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
 			<div ng-show="$ctrl.showContext" class="w-100 full-height">
 				<div class="pl-3 o-80" ng-if="$ctrl.cursor.type">
-					<!--<b class="text-muted">&#8870;</b>-->
 					<refresh target="$ctrl.cursor.type">
 						<div class="half-height v-scroll sink">
 							<div class="container mt-3">
@@ -34,24 +33,38 @@
 						<div class="half-height v-scroll">
 							<div class="container mt-3">
 								<hr class="mt-0">
-								<label ng-bind="$ctrl.cursor.type.dir[0]"></label>
-								<div ng-if="$ctrl.cursor.type.clas[0] == 'Ok'">
-									<p-td node="$ctrl.cursor.type.clas[1]"></p-td>
-								</div>
-								<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'">
-									<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
-									<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
-									<indent>
-										<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
-											<p-type ng-switch-when="CheckFailType" node="item"></p-type>
-											<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
-											<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
-											<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
-											<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
-											<span ng-switch-default ng-bind="item"></span>
-										</ng-switch>
-									</indent>
-								</div>
+								<!--<div style="min-height:24px">-->
+								<!--	<refresh target="$ctrl.cursor.path">-->
+								<!--		<code class="text-muted bg-darker" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>-->
+								<!--	</refresh>-->
+								<!--</div>-->
+								<!--<hr>-->
+								<!--<span class="text-muted">&Gamma;</span>-->
+								<b class="text-warning">&#8870;</b>
+								<span ng-bind="$ctrl.cursor.type.rule[0]"></span>
+								<ng-switch on="$ctrl.cursor.type.dir[0]" class="text-warning">
+									<b ng-switch-when="Synth">&rArr;</b>
+									<b ng-switch-when="Check">&lArr;</b>
+								</ng-switch>
+								<indent>
+									<div ng-if="$ctrl.cursor.type.clas[0] == 'Ok'">
+										<p-td node="$ctrl.cursor.type.clas[1]"></p-td>
+									</div>
+									<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'">
+										<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
+										<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
+										<indent>
+											<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
+												<p-type ng-switch-when="CheckFailType" node="item"></p-type>
+												<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
+												<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
+												<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
+												<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
+												<span ng-switch-default ng-bind="item"></span>
+											</ng-switch>
+										</indent>
+									</div>
+								</indent>
 							</div>
 						</div>
 					</refresh>

@@ -94,6 +94,15 @@ module.exports = {
 				sub._type = node[1];
 				return sub;
 			}
+			else if(node[0] === 'DebugLabel')
+			{
+				let sub = formatAST(node[3]);
+				sub._parent = node;
+				sub._debug = node;
+				// sub._name = node[1][1];
+				// sub._label = node[2][1];
+				return sub;
+			}
 			
 			let sub = [];
 			for(var i = 0; i < node.length; i++)

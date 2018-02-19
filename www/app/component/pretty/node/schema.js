@@ -33,7 +33,7 @@ module.exports = function(type)
 					while(node)
 					{
 						path.unshift(node);
-						if(node._label)
+						if(node._debug)
 						{
 							path.unshift(['DebugLabel']);
 						}

@@ -41,8 +41,9 @@
 }
 
 .indent:hover {
-	background: var(--dark);
-	box-shadow: 0 2px 14px var(--darkest);
+	/*background: var(--dark);*/
+	background: rgba(28, 32, 48, .4);
+	box-shadow: 0 2px 14px black;
 }
 
 .indent-collapse:hover {
