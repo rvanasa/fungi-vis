@@ -38,24 +38,25 @@
 									<b ng-switch-when="Check">&lArr;</b>
 								</ng-switch>
 								<indent>
-									<div ng-if="$ctrl.cursor.type.clas[0] == 'Ok'">
-										<p-td node="$ctrl.cursor.type.clas[1]"></p-td>
-									</div>
-									<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'">
-										<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
-										<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
-										<indent>
-											<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
-												<p-type ng-switch-when="CheckFailType" node="item"></p-type>
-												<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
-												<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
-												<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
-												<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
-												<span ng-switch-default ng-bind="item"></span>
-											</ng-switch>
-										</indent>
+									<div ng-if="$ctrl.cursor.type.dir[1] || $ctrl.cursor.type.clas[0] == 'Ok'">
+										<p-td node="$ctrl.cursor.type.dir[1] || $ctrl.cursor.type.clas[1]"></p-td>
 									</div>
 								</indent>
+								<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'" class="mt-2">
+									<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
+									<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
+									<indent>
+										<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
+											<id-var ng-switch-when="VarNotInScope" name="item"></id-var>
+											<p-type ng-switch-when="CheckFailType" node="item"></p-type>
+											<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
+											<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
+											<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
+											<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
+											<span ng-switch-default ng-bind="item"></span>
+										</ng-switch>
+									</indent>
+								</div>
 							</div>
 						</div>
 					</refresh>
