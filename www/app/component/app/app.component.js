@@ -1,6 +1,6 @@
 module.exports = {
 	template: require('./app.html'),
-	controller: function($q, ParseService, StorageService, Cursor)
+	controller: function($q, $timeout, ParseService, StorageService, Cursor)
 	{
 		var $ctrl = this;
 		
@@ -109,6 +109,17 @@ module.exports = {
 				sub[i] = s;
 			}
 			return sub;
+		}
+		
+		$ctrl.flattenFirst = function(node)
+		{
+			var nodes = [];
+			while(Array.isArray(node) && node.length > 1)
+			{
+				nodes.unshift(node);
+				node = node[1];
+			}
+			return nodes;
 		}
 		
 		console.log($ctrl.data);

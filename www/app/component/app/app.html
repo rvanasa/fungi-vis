@@ -27,7 +27,9 @@
 					<refresh target="$ctrl.cursor.type">
 						<div class="full-height v-scroll">
 							<div class="container mt-3">
-								<p-context node="::$ctrl.cursor.type.ctx"></p-context>
+								<div ng-repeat="node in ::$ctrl.flattenFirst($ctrl.cursor.type.ctx)">
+									<p-context node="node"></p-context>
+								</div>
 							</div>
 							<div class="container mt-3">
 								<hr class="mt-0">
