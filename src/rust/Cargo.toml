@@ -1,0 +1,7 @@
+[package]
+name = "fungi-vis"
+version = "0.1.0"
+authors = ["Adapton Project"]
+
+[dependencies]
+fungi-lang = "^0.1.20"

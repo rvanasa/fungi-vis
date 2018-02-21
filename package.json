@@ -4,7 +4,7 @@
   "description": "Fungi Visualization Tool",
   "main": "index.js",
   "repository": "https://github.com/Adapton/fungi-vis.git",
-  "author": "Adapton Project (http://adapton.org)",
+  "author": "Adapton Project",
   "scripts": {
     "start": "node index"
   },

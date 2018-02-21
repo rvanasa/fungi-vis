@@ -12,7 +12,7 @@ module.exports = function(App, Config, log)
 		var webpack = require('webpack');
 		var devMiddleware = require('webpack-dev-middleware');
 		
-		var compiler = webpack(require(this.config.basePath + '/webpack.config'));
+		var compiler = webpack(require(this.config.basePath + '/../webpack.config'));
 		App.use(require('webpack-hot-middleware')(compiler, {log}));
 		App.use(devMiddleware(compiler, {
 			stats: {colors: true},

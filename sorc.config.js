@@ -1,15 +1,15 @@
 module.exports = {
-    basePath: __dirname,
+    basePath: __dirname + '/src',
     verbose: 'dev',
     packages: [{
-        path: '/src/app',
+        path: '/server/app',
         env: ['dev', 'prod'],
     	eager: true,
     }, {
-        path: '/src/lib',
+        path: '/server/lib',
     }, {
         env: 'dev',
-        path: '/src/dev',
+        path: '/server/dev',
         eager: true,
     }],
 };

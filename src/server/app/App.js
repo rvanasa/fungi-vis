@@ -8,7 +8,7 @@ module.exports = function()
 {
 	var app = express();
 	
-	app.set('views', 'view');
+	app.set('views', this.config.basePath + '/www/view');
 	app.set('view engine', 'ejs');
 	
 	app.use(compression());
