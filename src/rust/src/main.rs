@@ -7,7 +7,7 @@ fn main() {
 	println!("Hello Rust!");
 }
 
-#[no_mangle]
-pub fn test(input: &str) {
-	println!("~~ {} ~~", input);
-}
+// #[no_mangle]
+// pub fn test(input: String) -> String {
+// 	format!("~~~ {} ~~~", input)
+// }

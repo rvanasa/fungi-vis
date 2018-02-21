@@ -14,6 +14,7 @@ var config = {
 	entry: {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
+		rust: wwwPath + '/app/rust.js',
 	},
 	output: {
 		path: destPath,
@@ -47,6 +48,10 @@ var config = {
 			}
 		  }],
 	},
+	externals: {
+    'fs': true,
+    'path': true,
+  },
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.optimize.ModuleConcatenationPlugin(),
