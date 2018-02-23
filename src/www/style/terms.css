@@ -1,3 +1,13 @@
+p-handle.error {
+	box-shadow: 0 0 3px 2px rgba(200, 30, 20, .8);
+}
+
+p-handle.selected {
+	display: inline-block;
+	box-shadow: 0 0 10px white;
+	background: rgba(255, 255, 255, .1);
+}
+
 .keyword {
 	color: var(--yellow);
 	font-weight: bold;

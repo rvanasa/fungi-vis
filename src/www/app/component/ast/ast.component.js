@@ -2,12 +2,13 @@ module.exports = {
 	template: require('./ast.html'),
 	bindings: {
 		node: '<',
+		depth: '<',
 	},
 	controller: function()
 	{
 		var $ctrl = this;
 		
-		$ctrl.indent = $ctrl.indent || 0;
+		$ctrl.depth = $ctrl.depth || 0;
 		
 		$ctrl.isNode = function(item)
 		{
