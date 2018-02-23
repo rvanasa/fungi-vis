@@ -10,6 +10,14 @@ module.exports = function StorageService()
 	
 	this.set = function(key, value)
 	{
-		localStorage.setItem(key, JSON.stringify(value));
+		try
+		{
+			localStorage.setItem(key, JSON.stringify(value));
+		}
+		catch(e)
+		{
+			console.error(e.stack);
+			localStorage.setItem(key, undefined);
+		}
 	}
 }
