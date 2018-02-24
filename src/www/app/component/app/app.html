@@ -67,7 +67,7 @@
 		</div>
 		<div class="col-md-6 p-0">
 			<div class="pretty-panel container v-scroll full-height">
-				<refresh target="$ctrl.program">
+				<refresh target="$ctrl.program" ng-if="$ctrl.program">
 					<p-exp node="::$ctrl.program"></p-exp>
 				</refresh>
 			</div>
@@ -80,3 +80,6 @@
 	</div>
 </div>
 <!--<div id="ast-tree"></div>-->
+<div class="text-center py-4 m-0 bg-darkest o-8" style="position:fixed; top:30vh; left:0; right:0" ng-if="$ctrl.loading">
+	<h3 class="text-muted">Loading...</h3>
+</div>

@@ -48,23 +48,30 @@ module.exports = {
 		
 		$ctrl.loadFile = function(file)
 		{
+			$ctrl.loading = true;
 			$q((resolve, reject) =>
 			{
-				var reader = new FileReader();
-				reader.onload = function(event)
+				$timeout(() =>
 				{
-					resolve(event.target.result);
-				}
-				reader.readAsDataURL(file);
+					var reader = new FileReader();
+					reader.onload = function(event)
+					{
+						resolve(event.target.result);
+					}
+					reader.readAsDataURL(file);
+				});
 			})
 			.then(data => window.atob(data.substring(data.lastIndexOf(',') + 1)))
+			.then(data => (console.time('Parse input'), data))///
 			.then(ParseService.parse)
+			.then(data => (console.timeEnd('Parse input'), data))///
 			.then(node => $ctrl.setData({
 				input: node[1].input.replace(/\\n/g, '\n'/*temp?*/),
 				program: node[1].program,
 				traces: node[1].traces,
 			}))
-			.catch(console.error);
+			.catch(console.error)
+			.finally(() => $ctrl.loading = false);
 		}
 		
 		$ctrl.showContext = true;
