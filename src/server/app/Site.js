@@ -25,7 +25,8 @@ module.exports = function(App, Config, log)
 	App.use('/lib', express.static(this.config.basePath + '/www/lib'));
 	App.use('/assets', express.static(this.config.basePath + '/www/assets'));
 	
-	App.get('*', (req, res) => res.render('index'));
+	App.get('/', (req, res) => res.render('index'));
+	//App.get('*', (req, res) => res.render('index'));
 	
 	App.use(morgan('dev'));
 	

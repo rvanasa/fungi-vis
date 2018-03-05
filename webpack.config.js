@@ -14,7 +14,7 @@ var config = {
 	entry: {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
-		// rust: wwwPath + '/app/rust.js',
+		rust: wwwPath + '/app/rust.js',
 	},
 	output: {
 		path: destPath,
@@ -40,13 +40,15 @@ var config = {
 			loader: 'file-loader',
 		}, {
 			test: /\.rs$/,
-			use: {
-			  loader: 'rust-wasm-loader',
+			use: [{
+			  loader: 'wasm-loader',
+			}, {
+			  loader: 'rust-native-wasm-loader',
 			  options: {
-				path: rustPath,
+					release: true,
 			  }
-			}
-		  }],
+			}]
+	  }],
 	},
 	externals: {
     'fs': true,

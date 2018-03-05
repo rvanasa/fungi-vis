@@ -1,11 +1,13 @@
 var wasm = require('../../rust/src/main.rs');
 
-var promise = wasm.initialize({noExitRuntime: true});
+var promise = wasm();
 window.RustPromise = promise;
 
-promise.then(module =>
+promise.then(result =>
 {
-	// var test = module.cwrap('test', 'string', ['string']);
-	//
-	// console.log(test('123'));
+	// console.log(module)///
+	
+	console.log(result)///
+	
+	console.log(result.instance.exports.test(123));
 });
