@@ -69,6 +69,7 @@ var Exp = p.lazy('Expression', () => p.alt(
 	Composite,
 	STR,
 	NUM,
+	L_PAREN.then(R_PAREN).result(null),
 ));
 
 // var Literal = p.alt(STR, NUM, TRUE, FALSE);
