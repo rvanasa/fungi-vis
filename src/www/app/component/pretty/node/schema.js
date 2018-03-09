@@ -37,9 +37,9 @@ module.exports = function(type)
 						node = node._parent;
 					}
 					
-					if(path.length > 8)
+					if(path.length > 6)
 					{
-						path = path.slice(-8);
+						path = path.slice(-6);
 						path.unshift(['...']);
 					}
 					Cursor.path = path;

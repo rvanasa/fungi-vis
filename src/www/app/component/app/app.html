@@ -74,7 +74,9 @@
 		</div>
 		<div style="position:absolute; bottom:1em; right:1em; opacity:.95">
 			<refresh target="$ctrl.cursor.path">
-				<code class="text-muted bg-dark" ng-repeat="node in $ctrl.cursor.path" ng-bind="node[0]"></code>
+				<span class="text-muted bg-dark" ng-repeat="node in $ctrl.cursor.path">
+					<span ng-if="$index==$ctrl.cursor.path.length-1"><span ng-bind="node._type.vis[1].tmfam"></span>::</span><span ng-bind="node[0]"></span>
+				</span>
 			</refresh>
 		</div>
 	</div>
