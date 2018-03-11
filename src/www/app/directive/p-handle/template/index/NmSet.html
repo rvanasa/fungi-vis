@@ -1,13 +1,17 @@
 <enclose-paren>
 	<keyword type="index" ng-if="!$ctrl.node[1][1].terms.length">&empty;</keyword>
 	<span ng-repeat="term in $ctrl.node[1][1].terms">
-		<ng-switch on="$ctrl.node[1][1].cons[1][0]" ng-if="$ctrl.index">
-			<operator ng-switch-when="Apart">%</operator>
-			<operator ng-switch-when="Union">U</operator>
+		<br ng-if="$ctrl.node[1][1].terms.length > 2">
+		<ng-switch on="$ctrl.node[1][1].cons[1][0]" ng-if="$index || $ctrl.node[1][1].terms.length > 2">
+			<operator>
+				<span ng-switch-when="Apart">%</span>
+				<span ng-switch-when="Union">U</span>
+			</operator>
 		</ng-switch>
 		<ng-switch on="term[0]">
 			<p-nametm ng-switch-when="Single" node="term[1]"></p-nametm>
 			<p-index ng-switch-when="Subset" node="term[1]"></p-index>
 		</ng-switch>
 	</span>
+	<br ng-if="$ctrl.node[1][1].terms.length > 2">
 </enclose-paren>
