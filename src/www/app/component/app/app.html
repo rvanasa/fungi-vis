@@ -45,18 +45,10 @@
 									</div>
 								</indent>
 								<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'" class="mt-2">
-									<label class="text-danger" ng-bind="$ctrl.cursor.type.clas[1][0]"></label>
+									<keyword type="error"><span ng-bind="$ctrl.cursor.type.clas[1][0]"></span></keyword>
 									<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
 									<indent>
-										<ng-switch on="$ctrl.cursor.type.clas[1][0]" ng-repeat="item in $ctrl.cursor.type.clas[1]" ng-if="$index">
-											<id-var ng-switch-when="VarNotInScope" name="item"></id-var>
-											<p-type ng-switch-when="CheckFailType" node="item"></p-type>
-											<p-ceffect ng-switch-when="CheckFailCEffect" node="item"></p-ceffect>
-											<p-val ng-switch-when="SynthFailVal" node="item"></p-val>
-											<p-ceffect ng-switch-when="UnexpectedCEffect" node="item"></p-ceffect>
-											<p-type ng-switch-when="UnexpectedType" node="item"></p-type>
-											<span ng-switch-default ng-bind="item"></span>
-										</ng-switch>
+										<p-error node="$ctrl.cursor.type.clas[1]"></p-error>
 									</indent>
 								</div>
 							</div>

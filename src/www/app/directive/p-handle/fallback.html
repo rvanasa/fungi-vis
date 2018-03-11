@@ -1,1 +1,2 @@
-<ast node="$ctrl.node"></ast>
+<ast ng-if="$ctrl.isNode($ctrl.node)" node="$ctrl.node"></ast>
+<literal ng-if="!$ctrl.isNode($ctrl.node)"><span ng-bind="$ctrl.node"></span></literal>

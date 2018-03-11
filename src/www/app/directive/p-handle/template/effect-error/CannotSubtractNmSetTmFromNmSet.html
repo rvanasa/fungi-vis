@@ -1,0 +1,7 @@
+<p-index node="::['NmSet', $ctrl.node[1]]"></p-index>
+<br>
+<br>
+<ng-switch on="$ctrl.node[2][0]">
+	<p-nametm ng-switch-when="Single" node="$ctrl.node[2][1]"></p-nametm>
+	<p-index ng-switch-when="Subset" node="$ctrl.node[2][1]"></p-index>
+</ng-switch>

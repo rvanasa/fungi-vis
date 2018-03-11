@@ -63,6 +63,10 @@ p-handle.selected {
 	color: var(--pink);
 }
 
+.keyword-error {
+	color: var(--red);
+}
+
 .literal {
 	color: var(--green);
 }
