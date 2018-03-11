@@ -52,7 +52,6 @@ p-handle.selected {
 
 .keyword-tcons {
 	color: var(--orange);
-	font-weight: normal;
 }
 
 .keyword-ctype {
@@ -65,6 +64,7 @@ p-handle.selected {
 
 .keyword-error {
 	color: var(--red);
+	font-weight: normal;
 }
 
 .literal {

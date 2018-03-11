@@ -25,6 +25,7 @@ module.exports = function($parse, $compile)
 				// TODO find a proper home for this mapping
 				if($ctrl.node._type)
 				{
+					var family = $ctrl.node._type && $ctrl.node._type.vis[1].tmfam;
 					$ctrl.node._type.category = {
 						'nametm': 'sort',
 						'index': 'sort',
@@ -34,7 +35,13 @@ module.exports = function($parse, $compile)
 				}
 			}
 			
-			var elems = $compile(id in templates ? templates[id] : fallbackTemplate)(scope);
+			var template = templates[id];
+			if(!template)
+			{
+				console.warn(`Template not found for`, '(' + type + ')', family + '::' + $ctrl.node[0], $ctrl.node);
+				template = fallbackTemplate;
+			}
+			var elems = $compile(template)(scope);
 			angular.element(elem).append(elems).html();
 		}
 	};
