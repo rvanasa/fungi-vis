@@ -19,16 +19,6 @@ function opt(parser, def)
 	return parser.or(p.succeed(def));
 }
 
-function optNext(a, b, combiner)
-{
-	return seq(a, b, combiner).or(a);
-}
-
-function sep1(delim, parser)
-{
-	return seq(parser, delim.then(parser).many(), (f, list) => (list.unshift(f), list));
-}
-
 function surround(left, parser, right)
 {
 	return left.then(parser).skip(right);
@@ -44,8 +34,7 @@ function toObject(pairs)
 	return obj;
 }
 
-// var ignore = p.alt(p.whitespace, p.string('//').then(p.regex(/.*$/m))).many();
-var ignore = p.string(' ').many();
+var ignore = opt(p.string(' '));
 
 var IDENT = lexeme(p.regex(/[_A-Za-z$][_A-Za-z$0-9]*/));
 var STR = lexeme(p.regex(/"([^"\\]*(\\.[^"\\]*)*)"/)).map(s => s.substring(1, s.length - 1));
@@ -76,8 +65,7 @@ var Exp = p.lazy('Expression', () => p.alt(
 
 var KVPair = p.seq(IDENT.skip(COLON), Exp);
 
-var Sequence = seq(opt(IDENT)/***/, surround(L_BRACKET, Exp.skip(opt(COMMA)).many(), R_BRACKET),
-	(id, values) => values);
+var Sequence = surround(L_BRACKET, Exp.skip(opt(COMMA)).many(), R_BRACKET);
 
 var Composite = seq(IDENT, opt(p.alt(
 	surround(L_PAREN, Exp.skip(opt(COMMA)).many(), R_PAREN),

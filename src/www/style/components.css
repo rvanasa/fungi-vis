@@ -28,7 +28,7 @@
 }
 
 .sink {
-	box-shadow: 0 -4px 4px --var(gray-dark) inset;
+	box-shadow: 0 -4px 4px var(--gray-dark) inset;
 }
 
 .logo {
@@ -38,4 +38,27 @@
 .logo:hover {
 	border-radius: 0;
 	transform: scale(1.1);
+}
+
+.list-group-dark .list-group-item {
+	background: rgba(0,0,0, .1);
+}
+
+.list-group-dark .list-group-item.clickable:hover {
+	background: rgba(255,255,255, .1);
+}
+
+.list-group-dark .list-group-item.clickable:hover .fa {
+	color: var(--yellow) !important;
+	transform: translateX(.5em);
+}
+
+.text-spread {
+	text-transform: uppercase;
+	font-weight: 200;
+	letter-spacing: 2px;
+}
+
+.glow-theme {
+	box-shadow: -.5em 0 2em var(--blue);
 }

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Cousine:200,400,700);
+@import url(https://fonts.googleapis.com/css?family=Cousine:200,400,700|IBM+Plex+Sans:300,400,700);
 
 @import url(components.css);
 @import url(terms.css);
@@ -17,7 +17,11 @@
 html, body {
 	overflow-x: hidden;
 	width: 100%;
-	font-family: "Cousine", serif;
+	font-family: "IBM Plex Sans", sans-serif;
+}
+
+.font-code {
+	font-family: "Cousine", monospace;
 }
 
 textarea {
@@ -38,7 +42,7 @@ textarea {
 }
 
 .text-thin {
-	font-weight: 100;
+	font-weight: 300;
 }
 
 .text-label {
@@ -66,9 +70,9 @@ textarea {
 }
 
 ::selection {
-    background: #DDD;
+    background: #DDE;
     /*color: #444;*/
-    color: #DDD;
+    color: #DDE;
 }
 
 .noselect {

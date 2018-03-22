@@ -1,7 +1,7 @@
 {
-  "name": "fungi-vis",
+  "name": "fungi-hfi",
   "version": "0.1.0",
-  "description": "Fungi Visualization Tool",
+  "description": "Human-Fungi Interface",
   "main": "index.js",
   "repository": "https://github.com/Adapton/fungi-vis.git",
   "author": "Adapton Project",

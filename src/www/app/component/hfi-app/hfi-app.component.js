@@ -1,6 +1,6 @@
 module.exports = {
-	template: require('./app.html'),
-	controller: function($q, $timeout, ParseService, StorageService, Cursor)
+	template: require('./hfi-app.html'),
+	controller: function($q, $timeout, $location, ParseService, StorageService, ExampleService, Cursor)
 	{
 		var $ctrl = this;
 		
@@ -12,7 +12,7 @@ module.exports = {
 			
 			if(!oneTime)
 			{
-				StorageService.set('data', data);
+				StorageService.set('bundle', data);
 			}
 			
 			$ctrl.data = data;
@@ -22,7 +22,9 @@ module.exports = {
 		}
 		
 		// Load input/AST/trace data
-		$ctrl.setData(StorageService.get('data') || {
+		var exampleID = $location.search().x;
+		var startData = exampleID ? ExampleService.find(exampleID) : StorageService.get('bundle');
+		$ctrl.setData(startData || {
 			input: null,
 			program: null,
 			traces: null,

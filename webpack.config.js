@@ -15,6 +15,7 @@ var config = {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
 		// rust: wwwPath + '/app/rust.js',
+		examples: wwwPath + '/app/examples.js',
 	},
 	output: {
 		path: destPath,
@@ -39,21 +40,24 @@ var config = {
 			test: /\.(png|jpg|ico)$/,
 			loader: 'file-loader',
 		}, {
+			test: /\.fgb$/,
+			loader: 'raw-loader',
+		}, {
 			test: /\.rs$/,
 			use: [{
 			  loader: 'wasm-loader',
 			}, {
-			  loader: 'rust-native-wasm-loader',
-			  options: {
+				loader: 'rust-native-wasm-loader',
+				options: {
 					release: true,
-			  }
+				}
 			}]
 	  }],
 	},
 	externals: {
-    'fs': true,
-    'path': true,
-  },
+		'fs': true,
+		'path': true,
+	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.optimize.ModuleConcatenationPlugin(),
