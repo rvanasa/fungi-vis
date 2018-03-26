@@ -50,6 +50,11 @@ textarea {
 	letter-spacing: 2px;
 }
 
+.bg-tree {
+	background: url(/assets/img/background.png);
+	background-size: cover;
+}
+
 .bg-dark {
 	background: var(--dark);
 	color: #FFF;

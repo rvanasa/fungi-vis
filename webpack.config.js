@@ -1,3 +1,5 @@
+var path = require('path');
+
 var webpack = require('webpack');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -41,6 +43,7 @@ var config = {
 			loader: 'file-loader',
 		}, {
 			test: /\.fgb$/,
+			// loader: path.resolve(__dirname, 'fungi-bundle-loader'),
 			loader: 'raw-loader',
 		}, {
 			test: /\.rs$/,
@@ -48,8 +51,7 @@ var config = {
 			  loader: 'wasm-loader',
 			}, {
 				loader: 'rust-native-wasm-loader',
-				options: {
-					release: true,
+				options: {release: true,
 				}
 			}]
 	  }],

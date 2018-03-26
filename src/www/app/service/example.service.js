@@ -18,5 +18,6 @@ module.exports = function ExampleService(ParseService)
 	{
 		id = `./${id}.fgb`;
 		return ParseService.parse(context(id))[1];
+		return context(id);
 	}
 }

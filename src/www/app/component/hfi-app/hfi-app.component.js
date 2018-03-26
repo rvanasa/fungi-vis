@@ -21,7 +21,7 @@ module.exports = {
 			$ctrl.traces = data.traces;
 		}
 		
-		// Load input/AST/trace data
+		// Load initial bundle
 		var exampleID = $location.search().x;
 		var startData = exampleID ? ExampleService.find(exampleID) : StorageService.get('bundle');
 		$ctrl.setData(startData || {

@@ -58,10 +58,8 @@ var Exp = p.lazy('Expression', () => p.alt(
 	Composite,
 	STR,
 	NUM,
-	L_PAREN.then(R_PAREN).result(null),
+	L_PAREN.then(R_PAREN).result(null)
 ));
-
-// var Literal = p.alt(STR, NUM, TRUE, FALSE);
 
 var KVPair = p.seq(IDENT.skip(COLON), Exp);
 
@@ -69,7 +67,18 @@ var Sequence = surround(L_BRACKET, Exp.skip(opt(COMMA)).many(), R_BRACKET);
 
 var Composite = seq(IDENT, opt(p.alt(
 	surround(L_PAREN, Exp.skip(opt(COMMA)).many(), R_PAREN),
-	surround(L_BRACE, KVPair.skip(opt(COMMA)).many().map(toObject), R_BRACE),
+	surround(L_BRACE, KVPair.skip(opt(COMMA)).many().map(toObject), R_BRACE)
 ), []), (id, values) => [id].concat(values));
 
-module.exports = Exp.skip(ignore);
+var EntryPoint = Exp.skip(ignore);
+
+module.exports = function(input)
+{
+	var result = EntryPoint.parse(input);
+	if(!result.status)
+	{
+		var nearby = input.substr(result.index.offset, 1);
+		throw new Error(`Unexpected ${nearby.length ? 'symbol ' + nearby : 'end of script'} (line ${result.index.line}, col ${result.index.column})`);
+	}
+	return result.value;
+}
