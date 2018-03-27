@@ -19,17 +19,21 @@ module.exports = {
 			$ctrl.input = data.input;
 			$ctrl.program = formatAST(data.program);
 			$ctrl.traces = data.traces;
+			
+			console.log($ctrl.data);
+			console.log($ctrl.program);
 		}
 		
 		// Load initial bundle
 		var exampleID = $location.search().x;
-		var startData = exampleID ? ExampleService.find(exampleID) : StorageService.get('bundle');
-		$ctrl.setData(startData || {
+		var startPromise = exampleID ? ExampleService.find(exampleID) : Promise.resolve(StorageService.get('bundle') || {
 			input: null,
 			program: null,
 			traces: null,
-		}, true);
+		});
+		startPromise.then(data => $ctrl.setData(data));
 		
+		// Refresh visualization
 		$ctrl.updateInput = function()
 		{
 			try
@@ -43,11 +47,12 @@ module.exports = {
 			
 			$ctrl.setData({
 				input: $ctrl.input,
-				program,
+				program: program,
 				traces: [],
 			});
 		}
 		
+		// Read contents of file
 		$ctrl.loadFile = function(file)
 		{
 			$ctrl.loading = true;
@@ -68,9 +73,9 @@ module.exports = {
 			.then(ParseService.parse)
 			.then(data => (console.timeEnd('Parse input'), data))///
 			.then(node => $ctrl.setData({
-				input: node[1].input.replace(/\\n/g, '\n'/*temp?*/),
-				program: node[1].program,
-				traces: node[1].traces,
+				input: node.input.replace(/\\n/g, '\n'/*temp?*/),
+				program: node.program,
+				traces: node.traces,
 			}))
 			.catch(console.error)
 			.finally(() => $ctrl.loading = false);
@@ -83,10 +88,36 @@ module.exports = {
 			$ctrl.showContext = !$ctrl.showContext;
 		}
 		
+		// Rewrite AST for pretty nodes
 		function formatAST(node)
 		{
 			if(!Array.isArray(node))
 			{
+				// Flatten enum values (object singletons with capital first letter key)
+				if(node && typeof node === 'object')
+				{
+					let keys = Object.keys(node);
+					for(let key of keys)
+					{
+						node[key] = formatAST(node[key]);
+					}
+					
+					// TEMP : Der<>
+					if(node.rule && node.ctx && node.dir && node.rule)
+					{
+						let sub = formatAST(node.rule);
+						node.rule = sub;
+						sub._type = node;
+						return sub;
+					}
+					
+					let key = keys[0];
+					if(keys.length === 1 && key.charAt(0) !== key.charAt(0).toLowerCase())
+					{
+						return formatAST([key].concat(node[key]));
+					}
+				}
+				
 				return node;
 			}
 			else if(node[0] === 'DebugLabel')
@@ -96,26 +127,28 @@ module.exports = {
 				sub._debug = node;
 				return sub;
 			}
-			else if(node[0] === 'Der')
-			{
-				let sub = formatAST(node[1].rule);
-				node[1].rule = sub;
-				sub._type = node[1];
-				return sub;
-			}
+			// else if(node[0] === 'Der')
+			// {
+			// 	let sub = formatAST(node[1].rule);
+			// 	node[1].rule = sub;
+			// 	sub._type = node[1];
+			// 	return sub;
+			// }
 			
-			let sub = [];
+			// let sub = [];
 			for(var i = 0; i < node.length; i++)
 			{
-				let s = node[i];
+				let s = formatAST(node[i]);
 				if(Array.isArray(s))
 				{
-					s = formatAST(s);
-					s._parent = sub;
+					// s._parent = sub;
+					s._parent = node;
 				}
-				sub[i] = s;
+				// sub[i] = s;
+				node[i] = s;
 			}
-			return sub;
+			// return sub;
+			return node;
 		}
 		
 		$ctrl.flattenFirst = function(node)
@@ -128,9 +161,6 @@ module.exports = {
 			}
 			return nodes;
 		}
-		
-		console.log($ctrl.data);
-		console.log($ctrl.program);
 		
 		// function getTree(node)
 		// {

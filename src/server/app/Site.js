@@ -1,7 +1,7 @@
 var express = require('express');
 var morgan = require('morgan');
 
-module.exports = function(App, Config, Repo, log)
+module.exports = function(App, Config, log)
 {
 	if(Config.resourcePath)
 	{
@@ -12,16 +12,13 @@ module.exports = function(App, Config, Repo, log)
 		var webpack = require('webpack');
 		var devMiddleware = require('webpack-dev-middleware');
 		
-		Repo.then(() =>
-		{
-			var compiler = webpack(require(this.config.basePath + '/../webpack.config'));
-			App.use(require('webpack-hot-middleware')(compiler, {log}));
-			App.use(devMiddleware(compiler, {
-				stats: {colors: true},
-				inline: true,
-				hot: true,
-			}));
-		});
+		var compiler = webpack(require(this.config.basePath + '/../webpack.config'));
+		App.use(require('webpack-hot-middleware')(compiler, {log}));
+		App.use(devMiddleware(compiler, {
+			stats: {colors: true},
+			inline: true,
+			hot: true,
+		}));
 	}
 	
 	// App.use('/api', API);

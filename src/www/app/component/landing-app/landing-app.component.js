@@ -4,7 +4,8 @@ module.exports = {
 	{
 		var $ctrl = this;
 		
-		$ctrl.examples = ExampleService.examples;
+		ExampleService.getIDs()
+			.then(ids => $ctrl.examples = ids);
 		
 		$ctrl.viewExample = function(example)
 		{
