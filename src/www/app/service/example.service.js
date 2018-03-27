@@ -28,6 +28,7 @@ module.exports = function ExampleService($http, ParseService)
 	this.find = function(id)
 	{
 		return $http.get(`/examples/${id}.fgb`)
-			.then(response => response.data);
+			.then(response => response.data)
+			.then(ParseService.parse);///////
 	}
 }

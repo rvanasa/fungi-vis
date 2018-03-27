@@ -31,7 +31,7 @@ module.exports = {
 			program: null,
 			traces: null,
 		});
-		startPromise.then(data => $ctrl.setData(data));
+		startPromise.then(bundle => $ctrl.setData(bundle[1]));
 		
 		// Refresh visualization
 		$ctrl.updateInput = function()
@@ -73,9 +73,9 @@ module.exports = {
 			.then(ParseService.parse)
 			.then(data => (console.timeEnd('Parse input'), data))///
 			.then(node => $ctrl.setData({
-				input: node.input.replace(/\\n/g, '\n'/*temp?*/),
-				program: node.program,
-				traces: node.traces,
+				input: node[1].input.replace(/\\n/g, '\n'/*temp?*/),
+				program: node[1].program,
+				traces: node[1].traces,
 			}))
 			.catch(console.error)
 			.finally(() => $ctrl.loading = false);
@@ -102,20 +102,20 @@ module.exports = {
 						node[key] = formatAST(node[key]);
 					}
 					
-					// TEMP : Der<>
-					if(node.rule && node.ctx && node.dir && node.rule)
-					{
-						let sub = formatAST(node.rule);
-						node.rule = sub;
-						sub._type = node;
-						return sub;
-					}
+					// // TEMP : `Der` case
+					// if(node.rule && node.ctx && node.dir && node.rule)
+					// {
+					// 	let sub = formatAST(node.rule);
+					// 	node.rule = sub;
+					// 	sub._type = node;
+					// 	return sub;
+					// }
 					
-					let key = keys[0];
-					if(keys.length === 1 && key.charAt(0) !== key.charAt(0).toLowerCase())
-					{
-						return formatAST([key].concat(node[key]));
-					}
+					// let key = keys[0];
+					// if(keys.length === 1 && key.charAt(0) !== key.charAt(0).toLowerCase())
+					// {
+					// 	return formatAST([key].concat(node[key]));
+					// }
 				}
 				
 				return node;
@@ -127,13 +127,13 @@ module.exports = {
 				sub._debug = node;
 				return sub;
 			}
-			// else if(node[0] === 'Der')
-			// {
-			// 	let sub = formatAST(node[1].rule);
-			// 	node[1].rule = sub;
-			// 	sub._type = node[1];
-			// 	return sub;
-			// }
+			else if(node[0] === 'Der')
+			{
+				let sub = formatAST(node[1].rule);
+				node[1].rule = sub;
+				sub._type = node[1];
+				return sub;
+			}
 			
 			// let sub = [];
 			for(var i = 0; i < node.length; i++)

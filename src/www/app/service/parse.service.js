@@ -4,7 +4,7 @@ module.exports = function ParseService()
 {
 	this.parse = function(input)
 	{
-		return JSON.parse(input);
-		// return parser(input);
+		// return JSON.parse(input);
+		return parser(input);
 	}
 }

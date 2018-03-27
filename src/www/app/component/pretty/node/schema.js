@@ -3,7 +3,7 @@ module.exports = function(type)
 	return {
 		template: `
 			<p-handle type="${type}"
-				ng-class="{selected:$ctrl.cursor.type==$ctrl.node._type, error:$ctrl.node._type.vis.local_err}"
+				ng-class="{selected:$ctrl.cursor.type==$ctrl.node._type, error:$ctrl.node._type.vis[1].local_err}"
 				ng-mouseover="$ctrl.focus(); $event.stopPropagation()"
 				ng-mouseout="$ctrl.unfocus(); $event.stopPropagation()"
 				ng-mousedown="$ctrl.select() && $event.stopPropagation()"

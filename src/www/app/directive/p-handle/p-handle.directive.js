@@ -16,11 +16,6 @@ module.exports = function($parse, $compile)
 		{
 			var $ctrl = scope.$ctrl;
 			
-			if(typeof $ctrl.node === 'string')
-			{
-				$ctrl.node = [$ctrl.node];///
-			}
-			
 			var type = attrs['type'] || 'exp';
 			
 			if($ctrl.isNode($ctrl.node))
@@ -30,7 +25,7 @@ module.exports = function($parse, $compile)
 				// TODO find a proper home for this mapping
 				if($ctrl.node._type)
 				{
-					var family = $ctrl.node._type && $ctrl.node._type.vis.tmfam;
+					var family = $ctrl.node._type && $ctrl.node._type.vis[1].tmfam;
 					$ctrl.node._type.category = {
 						'nametm': 'sort',
 						'index': 'sort',
