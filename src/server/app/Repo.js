@@ -11,7 +11,9 @@ module.exports = function(App, log)
 	
 	var prefix = `cd ${repoPath}`;
 	
-	return exec(`${prefix} && git pull`)
+	return exec(`git clone https://github.com/Adapton/fungi-lang.rust.git ${repoPath}`)
+		.catch(() => null)
+		.then(result => exec(`${prefix} && git pull`))
 		.then(result =>
 		{
 			if(result.trim() !== 'Already up-to-date.')
