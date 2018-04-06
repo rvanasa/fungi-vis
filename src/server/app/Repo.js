@@ -9,17 +9,14 @@ module.exports = function(App, log)
 	var repoPath = path.resolve('repo', 'fungi-lang.rust');
 	var examplePath = path.join(repoPath, 'target');
 	
-	var prefix = `cd ${repoPath}`;
-	
 	return exec(`git clone https://github.com/Adapton/fungi-lang.rust.git ${repoPath}`)
-		.catch(() => null)
-		.then(result => exec(`${prefix} && git pull`))
+		.catch(() => exec(`cd ${repoPath} && git pull`))
 		.then(result =>
 		{
 			if(result.trim() !== 'Already up-to-date.')
 			{
 				log('Updating examples...');
-				return exec(`${prefix} && cargo test`);
+				return exec(`cd ${repoPath} && cargo test`);
 			}
 			log('Skipped updating examples');
 		})
