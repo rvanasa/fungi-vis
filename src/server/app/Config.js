@@ -1,3 +1,4 @@
 module.exports = {
-    // resourcePath: './dist',
+    resourcePath: './dist',
+    examplePath: './dist/examples',
 };
