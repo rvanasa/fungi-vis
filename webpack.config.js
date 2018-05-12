@@ -12,6 +12,7 @@ var rustPath = __dirname + '/src/rust';
 var destPath = __dirname + '/dist';
 
 var config = {
+	mode: 'development', // TEMP
 	entry: {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
@@ -42,11 +43,10 @@ var config = {
 		}, {
 			test: /\.rs$/,
 			use: [{
-			  loader: 'wasm-loader',
+				loader: 'wasm-loader',
 			}, {
 				loader: 'rust-native-wasm-loader',
-				options: {release: true,
-				}
+				options: {release: true},
 			}]
 	  }],
 	},

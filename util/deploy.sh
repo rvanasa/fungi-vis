@@ -6,8 +6,8 @@ rm -rf dist &&
 webpack --bail --progress --profile &&
 
 git add . &&
-git commit -m"." &&
-git push origin master &&
+git commit -m"(Deploy)" &&
+# git push origin master &&
 git push heroku master
 
 # rm -f config.js
