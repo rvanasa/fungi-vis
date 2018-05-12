@@ -1,3 +1,5 @@
+require('util').promisify = require('util.promisify');
+
 var path = require('path');
 var webpack = require('webpack');
 
@@ -16,7 +18,7 @@ var config = {
 	entry: {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
-		rust: wwwPath + '/app/rust.js',
+		// rust: wwwPath + '/app/rust.js',
 	},
 	output: {
 		path: destPath,
