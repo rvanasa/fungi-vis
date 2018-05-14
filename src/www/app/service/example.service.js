@@ -20,7 +20,7 @@ module.exports = function ExampleService($http, ParseService)
 				id = id.replace(/\.fgb$/, '');
 				return {
 					id: id,
-					name: id.replace(/^fungi_lang::examples::/, ''),
+					name: id.replace(/^fungi_lang\.examples\./, ''),
 				};
 			}));
 	}

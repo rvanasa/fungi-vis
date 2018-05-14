@@ -1,8 +1,8 @@
 cd ..
 
-heroku git remote &&
-
 rm -rf dist &&
+
+heroku git:remote --app fungi-lang &&
 
 node_modules/webpack/bin/webpack.js --bail --progress --profile &&
 
