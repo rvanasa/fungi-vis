@@ -6,14 +6,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyPlugin = require('copy-webpack-plugin');
 
-var isBuild = process.env.npm_lifecycle_event === 'build';
-
 var wwwPath = __dirname + '/src/www';
 var rustPath = __dirname + '/src/rust';
 var destPath = __dirname + '/dist';
 
 var config = {
-	mode: 'development', // TEMP
+	// mode: 'development', // TEMP
 	entry: {
 		app: wwwPath + '/app/main.js',
 		module: wwwPath + '/app/module.js',
@@ -64,16 +62,5 @@ var config = {
 		new ExtractTextPlugin('bundle/[name].css'),
 	],
 };
-
-if(isBuild)
-{
-	config.plugins.push(new CopyPlugin([{
-		from: wwwPath,
-	}, {
-		// TEMP
-		from: 'repo/fungi-lang.rust/target/*.fgb',
-		to: 'dist/examples',
-	}]));
-}
 
 module.exports = config;

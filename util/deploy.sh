@@ -1,10 +1,13 @@
 cd ..
 
-npm_lifecycle_event=build
-
 rm -rf dist &&
 
-node node_modules/webpack-cli/bin/webpack.js --bail --progress --profile &&
+webpack --bail --progress --profile &&
+
+# TODO run tests
+cp -r ./repo/fungi-lang.rust/target ./dist/examples
+rm -rf ./dist/examples/debug
+rm ./dist/examples/rustc_info.json
 
 git add . &&
 # git commit -m"(Deploy)"
