@@ -2,19 +2,16 @@ cd ..
 
 rm -rf dist &&
 
-webpack --bail --progress --profile &&
+node_modules/webpack/bin/webpack.js --bail --progress --profile &&
 
 # TODO run tests
 cp -r ./repo/fungi-lang.rust/target ./dist/examples
 rm -rf ./dist/examples/debug
 rm ./dist/examples/rustc_info.json
 
-git add . &&
-# git commit -m"(Deploy)"
-# git push origin master
-# git push heroku master
-git commit --amend --no-edit &&
-git push heroku master --force &&
+# git add . &&
+# git commit -m "(Deploy)" &&
+git push heroku master
 
 rm -rf dist
 
