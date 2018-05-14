@@ -1,5 +1,7 @@
 cd ..
 
+heroku git remote &&
+
 rm -rf dist &&
 
 node_modules/webpack/bin/webpack.js --bail --progress --profile &&
