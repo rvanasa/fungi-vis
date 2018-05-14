@@ -18,5 +18,5 @@ rm -rf dist
 git add .
 git commit --amend --no-edit
 
-## Helpful for testing ##
+##  Helpful for testing:  ##
 # git add . && git commit --amend --no-edit && git push heroku master --force && heroku logs -t
