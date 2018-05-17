@@ -14,13 +14,11 @@ cp -r ./repo/fungi-lang.rust/target ./dist/examples
 rm -rf ./dist/examples/debug
 rm ./dist/examples/rustc_info.json
 
-git add . &&
 git commit -m "(Deploy)" &&
-git push heroku master --force
+git push heroku master --force &&
+git reset HEAD~1
 
 rm -rf dist
-
-git reset HEAD~1
 
 ##  Helpful for testing:  ##
 # git add . && git commit --amend --no-edit && git push heroku master --force && heroku logs -t
