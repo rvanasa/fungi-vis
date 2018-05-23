@@ -1,0 +1,58 @@
+<div
+	ondragover="event.stopPropagation(); event.preventDefault(); $(this).addClass('dragdrop'); event.dataTransfer.dropEffect = 'link'"
+	ondragleave="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop')"
+	ondrop="event.stopPropagation(); event.preventDefault(); $(this).removeClass('dragdrop'); $(this).scope().$ctrl.loadFile(event.dataTransfer.files[0])">
+	<div class="row">
+		<div class="col-md-6 bg-darker p-0">
+			<div ng-show="!$ctrl.cursor.type" class="w-100 full-height no-transition" ace-editor ng-model="$ctrl.input" ng-change="$ctrl.updateInput()"></div>
+			<div ng-show="$ctrl.cursor.type" class="w-100 full-height">
+				<div class="pl-3 o-80" ng-if="$ctrl.cursor.type">
+					<refresh target="$ctrl.cursor.type">
+						<div class="full-height v-scroll">
+							<div class="container mt-3">
+								<div ng-repeat="node in ::$ctrl.flattenFirst($ctrl.cursor.type.ctx)">
+									<p-context node="node"></p-context>
+								</div>
+							</div>
+							<div class="container mt-3">
+								<hr class="mt-0">
+								<b class="text-warning">&#8870;</b>
+								<span class="text-muted"><span ng-bind="$ctrl.cursor.type.vis[1].tmfam"></span>::</span><span ng-bind="$ctrl.cursor.type.rule[0]"></span>
+								<ng-switch on="$ctrl.cursor.type.dir[0]" class="text-warning">
+									<b ng-switch-when="Synth">&rArr;</b>
+									<b ng-switch-when="Check">&lArr;</b>
+								</ng-switch>
+								<indent>
+									<div ng-if="$ctrl.cursor.type.dir[1] || $ctrl.cursor.type.clas[0] == 'Ok'">
+										<p-td node="$ctrl.cursor.type.dir[1] || $ctrl.cursor.type.clas[1]"></p-td>
+									</div>
+								</indent>
+								<div ng-if="$ctrl.cursor.type.clas[0] == 'Err'" class="mt-2">
+									<keyword type="error"><span ng-bind="$ctrl.cursor.type.clas[1][0]"></span></keyword>
+									<operator ng-if="$ctrl.cursor.type.clas[1].length > 1">:</operator>
+									<indent>
+										<p-error node="$ctrl.cursor.type.clas[1]"></p-error>
+									</indent>
+								</div>
+							</div>
+						</div>
+					</refresh>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 p-0">
+			<div class="pretty-panel container v-scroll full-height"><!--ng-mousedown="$ctrl.cursor.type = null"-->
+				<refresh target="$ctrl.program" ng-if="$ctrl.program">
+					<p-exp node="::$ctrl.program"></p-exp>
+				</refresh>
+			</div>
+		</div>
+		<div style="position:absolute; bottom:1em; right:1em; opacity:.95">
+			<refresh target="$ctrl.cursor.path">
+				<span class="text-muted bg-dark" ng-repeat="node in $ctrl.cursor.path">
+					<span ng-if="$index==$ctrl.cursor.path.length-1"><span ng-bind="node._type.vis[1].tmfam"></span>::</span><span ng-bind="node[0]"></span>
+				</span>
+			</refresh>
+		</div>
+	</div>
+</div>

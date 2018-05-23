@@ -2,9 +2,7 @@
 <enclose-paren ng-if="$ctrl.depth >= 1">..</enclose-paren>
 <enclose-paren ng-if="$ctrl.node.length > 1 && $ctrl.depth < 1">
 	<span ng-repeat="item in $ctrl.node" ng-if="$index">
-		<!--<indent>-->
-			<literal ng-if="!$ctrl.isNode(item)"><span ng-bind="$ctrl.toJSON(item)"></span></literal>
-			<ast ng-if="$ctrl.isNode(item)" node="item" depth="$ctrl.depth + 1"></ast>
-		<!--</indent>-->
+		<literal ng-if="!$ctrl.isNode(item)"><span ng-bind="$ctrl.toJSON(item)"></span></literal>
+		<ast ng-if="$ctrl.isNode(item)" node="item" depth="$ctrl.depth + 1"></ast>
 	</span>
 </enclose-paren>

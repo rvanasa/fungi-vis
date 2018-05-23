@@ -62,3 +62,16 @@
 .glow-theme {
 	box-shadow: -.5em 0 2em var(--green);
 }
+
+.ast-trace {
+	border: 1px solid #444;
+}
+
+.ast-trace:hover {
+	border-color: #777;
+}
+
+.ast-trace code {
+	background: none;
+	color: var(--yellow);
+}

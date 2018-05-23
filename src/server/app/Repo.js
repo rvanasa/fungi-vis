@@ -41,6 +41,7 @@ module.exports = function(Config, App, log)
 					}
 					log('Skipped updating examples');
 				})
+				.catch(() => console.log('Failed to run all tests!'))
 				.then(() => targetPath);
 		}
 		

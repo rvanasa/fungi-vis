@@ -8,6 +8,10 @@
 	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height, border-radius;
 }
 
+.no-transition, .no-transition * {
+	transition: none;
+}
+
 :root {
 	--dark: #1C2030;
 	--darker: #131722;

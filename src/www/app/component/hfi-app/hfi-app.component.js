@@ -1,10 +1,8 @@
 module.exports = {
 	template: require('./hfi-app.html'),
-	controller: function($q, $timeout, $location, ParseService, StorageService, ExampleService, Cursor)
+	controller: function($q, $timeout, $location, StorageService, ExampleService, ParseService)
 	{
 		var $ctrl = this;
-		
-		$ctrl.cursor = Cursor;
 		
 		$ctrl.setData = function(data, oneTime)
 		{
@@ -69,11 +67,11 @@ module.exports = {
 				});
 			})
 			.then(data => window.atob(data.substring(data.lastIndexOf(',') + 1)))
-			.then(data => (console.time('Parse input'), data))///
+			.then(data => (console.time('Parse input'), data))
 			.then(ParseService.parse)
-			.then(data => (console.timeEnd('Parse input'), data))///
+			.then(data => (console.timeEnd('Parse input'), data))
 			.then(node => $ctrl.setData({
-				input: node[1].input.replace(/\\n/g, '\n'/*temp?*/),
+				input: node[1].input/*.replace(/\\n/g, '\n')*/,
 				program: node[1].program,
 				traces: node[1].traces,
 			}))
@@ -81,11 +79,11 @@ module.exports = {
 			.finally(() => $ctrl.loading = false);
 		}
 		
-		$ctrl.showContext = true;
+		$ctrl.showingTraces = false;
 		
-		$ctrl.toggleInputPanel = function()
+		$ctrl.toggleTraces = function()
 		{
-			$ctrl.showContext = !$ctrl.showContext;
+			$ctrl.showingTraces = !$ctrl.showingTraces;
 		}
 		
 		// Rewrite AST for pretty nodes
@@ -135,19 +133,15 @@ module.exports = {
 				return sub;
 			}
 			
-			// let sub = [];
 			for(var i = 0; i < node.length; i++)
 			{
 				let s = formatAST(node[i]);
 				if(Array.isArray(s))
 				{
-					// s._parent = sub;
 					s._parent = node;
 				}
-				// sub[i] = s;
 				node[i] = s;
 			}
-			// return sub;
 			return node;
 		}
 		
