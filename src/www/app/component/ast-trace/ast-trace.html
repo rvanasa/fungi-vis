@@ -1,7 +1,7 @@
 <span class="ast-trace d-inline-block clickable">
-	<code ng-bind="$ctrl.node[0]"></code>
-	<span class="d-inline-block pl-2" ng-repeat="item in $ctrl.node" ng-if="$index">
+	<code ng-if="!$ctrl.isNode($ctrl.node[0])" ng-bind="$ctrl.node[0]"></code>
+	<span class="d-inline-block pl-2" ng-repeat="item in $ctrl.node" ng-if="$ctrl.isNode($ctrl.node[0]) || $index">
 		<literal ng-if="!$ctrl.isNode(item)"><span ng-bind="$ctrl.toJSON(item)"></span></literal>
-		<ast-trace ng-if="$ctrl.isNode(item)" node="item" depth="$ctrl.depth + 1"></ast-trace>
+		<ast-trace ng-if="$ctrl.isNode(item)" node="item"></ast-trace>
 	</span>
 </span>
