@@ -4,8 +4,8 @@
 @import url(terms.css);
 
 :not(.no-transition) {
-	transition: .2s ease-out;
-	transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height, border-radius;
+	/*transition: .2s ease-out;*/
+	/*transition-property: background, color, opacity, border, box-shadow, transform, max-width, max-height, border-radius;*/
 }
 
 .no-transition, .no-transition * {
@@ -30,6 +30,15 @@ html, body {
 
 textarea {
 	resize: none;
+}
+
+a {
+	color: var(--yellow);
+}
+
+a:hover {
+	color: var(--yellow);
+	opacity: .8;
 }
 
 .clickable, .btn, a {
@@ -107,11 +116,11 @@ textarea {
 ::-webkit-scrollbar-track:hover {
     background: #CCC;
 }
- 
+
 ::-webkit-scrollbar-thumb {
     background: #777;
 }
- 
+
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
