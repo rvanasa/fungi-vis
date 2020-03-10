@@ -1,0 +1,2335 @@
+
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<style>
+div { 
+  display: inline
+}
+body {
+  display: inline;
+  color: #aa88cc;
+  background: #552266;
+  font-family: sans-serif;
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+}
+body:visited {
+  color: #aa88cc;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+hr {
+  display: block;
+  float: left;
+  clear: both;
+  width: 0px;
+  border: none;
+}
+
+.toggles {
+  blackground: #653276;
+  display: block;
+}
+
+.trace, .force-tree, .alloc-tree, .dcg-alloc-edge, .dcg-force-edge {
+  color: black;
+  display: inline-block;
+  border-style: solid;
+  border-color: red;
+  border-width: 1px;
+  font-size: 0px;
+  padding: 0px;
+  margin: 1px;
+  border-radius: 5px;
+}
+
+.debug { 
+  font-size: 0px;
+}
+.tr-effect { 
+  display: inline;
+  display: none;
+  font-size: 10px;
+  background-color: white;
+  border-radius: 2px;
+}
+.tr-symbols {  
+  font-size: 10px;
+  display: inline;
+  display: none;
+}
+
+.path {  
+  display: inline-block;
+  display: none;
+
+  margin: 0px;
+  padding: 1px;
+  border-radius: 1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #664466;
+  background-color: #664466; 
+}
+
+.alloc-kind-thunk {
+  border-color: green;
+  border-radius:20px;
+}
+.alloc-kind-refcell {
+  border-color: green;
+  border-radius:0;
+}
+.tr-force-compcache-miss {  
+  background: #ccccff;
+  border-color: blue;
+  padding: 0px;
+}
+.tr-force-compcache-hit {  
+  background: #ccccff;
+  border-color: blue;
+  border-width: 4px;
+  padding: 3px;
+}
+.tr-force-refget {  
+  border-radius: 0;
+  border-color: blue;
+}
+.tr-force-dup {  
+  border-width: 0px;
+  padding: 0px;
+  background: #666666;
+  display: none;
+}
+.tr-doc {  
+  color: black;
+  background: white;
+  border-color: black;
+  border-width: 3px; 
+  margin: 1px;
+  padding: 2px;
+  display: block;
+  font-size: 20px;
+}
+.tr-debug {  
+  background: white;
+  border-color: black;
+  border-width: 1px; 
+  margin: 0px;
+  padding: 1px;
+  display: none;
+}
+.tr-clean-rec {  
+  background: #222244;
+  border-color: #aaaaff;
+  border-width: 1px; 
+}
+.tr-clean-eval {  
+  background: #8888ff;
+  border-color: white;
+  border-width: 4px; 
+}
+.tr-clean-edge {  
+  background: white;
+  border-color: #aaaaff;
+  border-width: 2px; 
+  padding: 3px;
+}
+.tr-alloc-loc-fresh {  
+  padding: 3px;
+  background: #ccffcc;
+}
+.tr-alloc-loc-exists-same {  
+  padding: 3px;
+  background: #ccffcc;
+  border-width: 4px;
+  border-color: green;
+}
+.tr-alloc-loc-exists-diff {  
+  padding: 3px;
+  background: #ffcccc;
+  border-width: 4px;
+  border-color: red;
+}
+.tr-dirty {  
+  background: #550000;
+  border-color: #ffaaaa;
+  border-width: 1px;
+}
+.tr-remove {  
+  background: red;
+  border-color: black;
+  border-width: 2px;
+  padding: 2px;
+}
+
+.force-tree {
+  background: #ccccff;
+  border-color: blue;
+}
+.alloc-tree {
+  background: #ccffcc;
+  border-color: green;
+}
+
+.no-extent {
+  padding: 3px;
+}
+.page-title {
+  display: block;
+  font-size: 32px;
+  color: #ccaadd;
+  margin: 8px;
+}
+
+.val-name,
+.val-constr,
+.val-struct,
+.val-tuple,
+.val-vec,
+.val-art
+{
+  display: inline-block;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dd88ff;
+  background-color: #220033;
+  padding: 1px;
+  margin: 1px;
+  border-radius 2px;  
+  font-size: 0px;  
+}
+.val-constr,
+.val-struct,
+.val-tuple,
+.val-vec {
+  border-color: #dd88ff;
+  background-color: #773388;
+}
+.val-art
+{
+  padding: 2px;
+}
+
+.name {
+  display: inline;
+  display: none;
+
+  font-size: 9px;
+  color: black;
+  background: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #664466; 
+  border-radius: 2px;
+  padding: 1px;
+  margin: 1px;
+}
+
+.val-const
+{
+  display: inline-block;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  color: black;
+  background-color: grey;
+  padding: 2px;
+  margin: 1px;
+  border-radius 5px;  
+  font-size: 8px;  
+}
+
+</style>
+
+<script>
+function toggleDebug() {
+ var selection = document.getElementById("checkbox-debug");
+ if (selection.checked) {
+   $('.tr-debug').css('display', 'inline-block')
+ } else {
+   $('.tr-debug').css('display', 'none')
+ }
+}
+
+function toggleDebugText() {
+ var selection = document.getElementById("checkbox-debug-text");
+ if (selection.checked) {
+   $('.debug').css('font-size', '10')
+ } else {
+   $('.debug').css('font-size', '0')
+ }
+}
+
+function togglePaths() {
+ var selection = document.getElementById("checkbox-1");
+ if (selection.checked) {
+   $('.path').css('display', 'inline-block')
+ } else {
+   $('.path').css('display', 'none')
+ }
+}
+
+function toggleNames() {
+ var selection = document.getElementById("checkbox-2");
+ if (selection.checked) {
+   $('.name').css('display', 'inline')
+ } else {
+   $('.name').css('display', 'none')
+ }
+}
+
+function toggleEffects() {
+ var selection = document.getElementById("checkbox-3");
+ if (selection.checked) {
+   $('.tr-effect').css('display', 'inline')
+ } else {
+   $('.tr-effect').css('display', 'none')
+ }
+}
+
+function toggleDupForces() {
+ var selection = document.getElementById("checkbox-4");
+ if (selection.checked) {
+   $('.tr-force-dup').css('display', 'inline')
+ } else {
+   $('.tr-force-dup').css('display', 'none')
+ }
+}
+</script>
+</head>
+
+<body>
+<fieldset class="toggles">
+ <legend>Toggles:</legend>
+ <label for="show-debug-checkbox">debug steps</label>
+ <input type="checkbox" name="show-debug-checkbox" id="checkbox-debug" onchange="toggleDebug()">
+ </br>
+ <label for="show-debug-checkbox">debug step names</label>
+ <input type="checkbox" name="show-debug-text-checkbox" id="checkbox-debug-text" onchange="toggleDebugText()">
+ </br>
+ <label for="show-paths-checkbox">paths</label>
+ <input type="checkbox" name="show-paths-checkbox" id="checkbox-1" onchange="togglePaths()">
+ </br>
+ <label for="show-names-checkbox">names</label>
+ <input type="checkbox" name="show-names-checkbox" id="checkbox-2" onchange="toggleNames()">
+ </br>
+ <label for="show-effects-checkbox">
+ <a href="https://docs.rs/adapton/0/adapton/reflect/trace/enum.Effect.html">effects</a>
+ </label>
+ <input type="checkbox" name="show-effects-checkbox" id="checkbox-3" onchange="toggleEffects()">
+ </br>
+ <label for="show-effects-checkbox">duplicate forces</label>
+ <input type="checkbox" name="show-effects-checkbox" id="checkbox-4" onchange="toggleDupForces()">
+</fieldset>
+
+<div class="traces">
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Generate the input sequence
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  0">
+0
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  1">
+1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  1-bin">
+1-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  2">
+2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  2-bin">
+2-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3-bin">
+3-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4-bin">
+4-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5-bin">
+5-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6-bin">
+6-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7-bin">
+7-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8-bin">
+8-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9-bin">
+9-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10-bin">
+10-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Perform the DFS
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  nil">
+nil
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10-bin">
+10-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  10-bin-1">
+10-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  10-bin-1">
+10-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9-bin">
+9-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  9-bin-1">
+9-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  9-bin-1">
+9-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8-bin">
+8-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  8-bin-1">
+8-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  8-bin-1">
+8-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7-bin">
+7-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  7-bin-1">
+7-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  7-bin-1">
+7-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6-bin">
+6-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  6-bin-1">
+6-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  6-bin-1">
+6-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5-bin">
+5-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  5-bin-1">
+5-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  5-bin-1">
+5-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4-bin">
+4-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  4-bin-1">
+4-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  4-bin-1">
+4-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3-bin">
+3-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  3-bin-1">
+3-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  3-bin-1">
+3-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  2-bin">
+2-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  2-bin-1">
+2-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  2-bin-1">
+2-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  1-bin">
+1-bin
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  1-bin-1">
+1-bin-1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  1-bin-1">
+1-bin-1
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  0">
+0
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  1-bin-2">
+1-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  1-bin-2">
+1-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  1">
+1
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  1">
+1
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  2-bin-2">
+2-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  2-bin-2">
+2-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  2">
+2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  2">
+2
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  3-bin-2">
+3-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  3-bin-2">
+3-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  4-bin-2">
+4-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  4-bin-2">
+4-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  5-bin-2">
+5-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  5-bin-2">
+5-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  6-bin-2">
+6-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  6-bin-2">
+6-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  7-bin-2">
+7-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  7-bin-2">
+7-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  8-bin-2">
+8-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  8-bin-2">
+8-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  9-bin-2">
+9-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  9-bin-2">
+9-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  10-bin-2">
+10-bin-2
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+Force(CompCacheMiss)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  10-bin-2">
+10-bin-2
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+Force(RefGet)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+Alloc(LocFresh)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Insert element into sequence
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+TODO
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Re-demand output of DFS
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+Force(CompCacheHit)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Remove element from sequence
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+TODO
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+Re-demand output of DFS
+</div>
+<div class="none ">
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+Force(CompCacheHit)
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  seq_dfs">
+seq_dfs
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-doc no-extent">
+<div class="doc ">
+All done
+</div>
+<div class="none ">
+</div>
+</div>
+</div>
