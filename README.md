@@ -1,4 +1,4 @@
-***Human-Fungi Interface*** is an interactive visualization tool for the [Fungi](https://github.com/Adapton/fungi-lang.rust) programming language.
+#### ***[Human-Fungi Interface](http://fungi-lang.herokuapp.com/)*** is an interactive visualization tool for the [Fungi](https://github.com/Adapton/fungi-lang.rust) programming language.
 
 ### Local Configuration
 
