@@ -21,7 +21,7 @@
     "yargs": "8.0.2"
   },
   "devDependencies": {
-    "angular": "1.6.7",
+    "angular": "1.8.3",
     "angular-animate": "1.6.7",
     "angular-touch": "1.6.7",
     "angular-ui-bootstrap": "2.5.6",
